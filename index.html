@@ -74,7 +74,6 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center space-x-3">
-                    <!-- Updated with official SK Kebagu Crest Logo -->
                     <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-md p-1 border border-emerald-200">
                         <img id="school-logo-img" src="LOGO SKK REDRAW.PNG" alt="Logo SK Kebagu" class="max-h-full max-w-full object-contain" onerror="this.src='https://placehold.co/100x100/16a34a/ffffff?text=SKK'">
                     </div>
@@ -91,15 +90,14 @@
                     <a href="#statistik" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Statistik</a>
                     <a href="#opr-reports" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Laporan OPR 📑</a>
                     <a href="#galeri" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Galeri</a>
-                    <a href="#fokus" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">4 Fokus</a>
                     <a href="#psikometrik" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Psikometrik</a>
                     <a href="#minda-sihat" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Minda Sihat 🧠</a>
                     
                     <!-- BACKGROUND MUSIC WIDGET -->
                     <div class="flex items-center bg-emerald-100/70 border border-emerald-300 rounded-full px-2.5 py-1 text-xs">
                         <button id="music-play-btn" onclick="toggleBackgroundMusic()" class="text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1">
-                            <i id="music-icon" class="fa-solid fa-compact-disc text-emerald-600 animate-spin"></i>
-                            <span id="music-status-text">🎵 Muzik</span>
+                            <i id="music-icon" class="fa-solid fa-compact-disc text-emerald-600"></i>
+                            <span id="music-status-text">🎵 Muzik (Off)</span>
                         </button>
                         <audio id="bg-audio" loop preload="auto">
                             <source id="bg-audio-source" src="https://assets.mixkit.co/music/preview/mixkit-happy-kids-learning-1111.mp3" type="audio/mpeg">
@@ -110,13 +108,10 @@
                         💬 E-Kaunseling
                     </a>
 
-                    <!-- ADMIN ACCESS BUTTON & SAVE/UNDO TOOLBAR -->
+                    <!-- ADMIN ACCESS BUTTON -->
                     <div class="flex items-center gap-1.5">
                         <button onclick="promptAdminLogin()" class="bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold px-3 py-2 rounded-full transition shadow-md text-xs flex items-center gap-1 border border-amber-400/30">
-                            🔒 Admin
-                        </button>
-                        <button onclick="savePortalState()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold px-3 py-2 rounded-full transition text-xs shadow-md" title="Simpan Perubahan ke Storan">
-                            💾 Simpan
+                            🔒 Admin Portal
                         </button>
                         <button onclick="openThemeCustomizerModal()" class="admin-only hidden bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold px-3 py-2 rounded-full transition text-xs shadow-md" title="Ubah Tema & Warna Portal">
                             🎨 Warna
@@ -127,7 +122,7 @@
         </div>
     </nav>
 
-    <!-- HERO & BANNER UBK (RESTORED FULL HERO SECTION) -->
+    <!-- HERO & BANNER UBK -->
     <section id="utama" class="relative py-12 md:py-16 bg-kids-pattern border-b border-emerald-100 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-12 gap-8 items-center">
@@ -214,7 +209,7 @@
     <section id="statistik" class="py-12 bg-gradient-to-r from-teal-600 to-emerald-700 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-8">
-                <span class="bg-white/20 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Pencapaian Perkhidmatan (<span class="active-year-text">2026</span>)</span>
+                <span class="bg-white/20 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Pencapaian Perkhidmatan</span>
                 <h3 class="font-heading font-bold text-3xl mt-2">Jumlah Sesi Kaunseling Dilaksanakan</h3>
                 <p class="text-emerald-100 text-sm">Rekod rasmi sesi bimbingan dan kaunseling yang telah diselesaikan di SK Kebagu.</p>
             </div>
@@ -227,7 +222,6 @@
                     </div>
                     <h4 class="font-heading font-bold text-xl">Sesi Kaunseling Individu</h4>
                     <div class="text-5xl font-heading font-extrabold text-amber-300 py-1" id="count-individu-display">48</div>
-                    <p class="text-xs text-emerald-100">Sesi Bersemuka & Atas Talian</p>
 
                     <!-- Admin Edit Controls -->
                     <div class="admin-only hidden pt-3 border-t border-white/20 space-y-2">
@@ -246,7 +240,6 @@
                     </div>
                     <h4 class="font-heading font-bold text-xl">Sesi Kaunseling Kelompok</h4>
                     <div class="text-5xl font-heading font-extrabold text-sky-300 py-1" id="count-kelompok-display">26</div>
-                    <p class="text-xs text-emerald-100">Bimbingan Kumpulan & Bimbingan Rakan Sebaya</p>
 
                     <!-- Admin Edit Controls -->
                     <div class="admin-only hidden pt-3 border-t border-white/20 space-y-2">
@@ -290,21 +283,20 @@
         </div>
     </section>
 
-    <!-- GALERI AKTIVITI & PROGRAM UBK (MULTI-GAMBAR ENABLED) -->
+    <!-- GALERI AKTIVITI & PROGRAM UBK -->
     <section id="galeri" class="py-14 bg-emerald-50/30 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">
-                        Album Aktiviti (<span class="active-year-text">2026</span>)
+                        Album Aktiviti Sekolah
                     </span>
                     <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Galeri Aktiviti & Program</h3>
                     <p class="text-slate-600 text-sm mt-1">Imbauan kenangan program Bimbingan, Sahsiah, dan Minda Sihat sekolah.</p>
                 </div>
                 
-                <!-- Admin Add Photo Button -->
                 <button onclick="openGalleryUploadModal()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold px-4 py-2.5 rounded-2xl text-xs transition shadow-md mt-4 md:mt-0 flex items-center gap-2">
-                    📸 + Muat Naik Program Baharu (Multi-Gambar)
+                    📸 + Muat Naik Program Baharu
                 </button>
             </div>
 
@@ -340,33 +332,43 @@
     </section>
 
     <!-- MODUL ONE PAGE REPORT (OPR) PROGRAM -->
-    <section id="opr" class="py-14 bg-white border-b border-slate-200">
+    <section id="opr-reports" class="py-14 bg-white border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-purple-700 bg-purple-100 px-3 py-1 rounded-full">
-                        Pelaporan Laporan Ringkas (OPR)
+                        Dokumentasi Rasmi UBK
                     </span>
-                    <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">One Page Report (OPR) UBK</h3>
-                    <p class="text-slate-600 text-sm mt-1">Paparan dokumen laporan perkhidmatan & aktiviti lengkap berserta penilaian.</p>
+                    <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Pusat Laporan One Page Report (OPR)</h3>
+                    <p class="text-slate-600 text-sm mt-1">Koleksi Laporan Ringkas 1 Muka Surat mengikut Kategori & Rekod Sejarah Aktiviti.</p>
                 </div>
 
-                <!-- Admin Upload OPR File -->
-                <button onclick="openOprUploadModal()" class="admin-only hidden bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold px-4 py-2.5 rounded-2xl text-xs transition shadow-md flex items-center gap-2">
-                    📄 + Muat Naik OPR Laporan Baharu
-                </button>
+                <div class="flex flex-wrap items-center gap-2 mt-4 md:mt-0">
+                    <select id="opr-year-filter" onchange="filterOprReports()" class="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold shadow-sm">
+                        <option value="ALL">Semua Tahun</option>
+                        <option value="2026" selected>Tahun 2026</option>
+                        <option value="2025">Tahun 2025</option>
+                        <option value="2024">Tahun 2024</option>
+                    </select>
+
+                    <button onclick="openOprUploadModal()" class="admin-only hidden bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold px-4 py-2 text-xs rounded-xl transition shadow-md flex items-center gap-2">
+                        📄 + Muat Naik OPR Laporan Baharu
+                    </button>
+                </div>
             </div>
 
             <!-- OPR Grid Container -->
-            <div id="opr-container" class="grid md:grid-cols-3 gap-6">
-                <!-- Sample OPR Card 1 -->
-                <div class="opr-card bg-slate-50 border-2 border-purple-100 rounded-3xl p-5 space-y-3 relative">
+            <div id="opr-grid-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="opr-card bg-slate-50 border-2 border-purple-100 rounded-3xl p-5 space-y-3 relative" data-year="2026" data-category="Minda Sihat">
                     <button onclick="removeOprCard(this)" class="admin-only hidden absolute top-3 right-3 text-rose-500 font-bold text-xs" title="Padam OPR">🗑️</button>
-                    <span class="text-[10px] font-bold bg-purple-200 text-purple-800 px-2.5 py-0.5 rounded-full">OPR 2026</span>
-                    <h4 class="font-heading font-bold text-slate-900 text-base">OPR Kempen Kehadiran 100%</h4>
-                    <p class="text-xs text-slate-600">Laporan pelaksanaan kempen kehadiran murid penuh bulan Januari 2026.</p>
-                    <a href="#" onclick="alert('Fail OPR sedia dimuat turun. Admin boleh menukar fail melalui butang upload.')" class="inline-flex items-center gap-1.5 text-xs font-bold text-purple-700 hover:underline">
-                        <i class="fa-solid fa-file-pdf"></i> Lihat / Muat Turun Fail OPR
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="bg-purple-200 text-purple-800 font-bold px-2.5 py-0.5 rounded-md">OPR MINDA SIHAT</span>
+                        <span class="font-bold text-slate-400">📅 2026</span>
+                    </div>
+                    <h4 class="font-heading font-bold text-slate-900 text-base">OPR Kempen Pelancaran Minda Sihat</h4>
+                    <p class="text-xs text-slate-600">Laporan Aktiviti Senam Seni & Ekspresi Emosi Murid SK Kebagu.</p>
+                    <a href="https://placehold.co/600x800/16a34a/ffffff?text=OPR+MINDA+SIHAT" target="_blank" class="block w-full text-center bg-purple-100 hover:bg-purple-600 hover:text-white text-purple-900 font-heading font-bold py-2 rounded-xl text-xs transition">
+                        📄 Lihat / Muat Turun Fail OPR (PDF/Image)
                     </a>
                 </div>
             </div>
@@ -391,12 +393,9 @@
                     <p class="text-xs text-slate-600">Mengenal pasti kebolehan mental & kemahiran persepsi awal murid.</p>
                     
                     <div class="space-y-2">
-                        <a id="psiko-t4-link" href="#" target="_blank" onclick="handleQuizOrFileClick('T4', event)" class="block w-full text-center bg-sky-600 hover:bg-sky-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
+                        <a id="psiko-t4-link" href="#" target="_blank" onclick="alert('Pautan Borang Ujian Psikometrik Tahun 4 dibuka.')" class="block w-full text-center bg-sky-600 hover:bg-sky-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
                             📝 Jawab Ujian / Muat Turun Fail T4
                         </a>
-                        <button onclick="openSectionFileUploadModal('psikometrik_t4')" class="admin-only hidden w-full bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold py-1.5 rounded-lg text-xs">
-                            📂 Upload Fail / Soalan Baharu
-                        </button>
                     </div>
                 </div>
 
@@ -407,12 +406,9 @@
                     <p class="text-xs text-slate-600">Mengukur 9 domain kecerdasan (Verbal, Visual, Logik, Muzik, Kinestetik, dll).</p>
                     
                     <div class="space-y-2">
-                        <a id="psiko-t5-link" href="#" target="_blank" onclick="handleQuizOrFileClick('T5', event)" class="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
+                        <a id="psiko-t5-link" href="#" target="_blank" onclick="alert('Pautan Borang Ujian IKP Tahun 5 dibuka.')" class="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
                             📝 Jawab Ujian / Muat Turun Fail T5
                         </a>
-                        <button onclick="openSectionFileUploadModal('psikometrik_t5')" class="admin-only hidden w-full bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold py-1.5 rounded-lg text-xs">
-                            📂 Upload Fail / Soalan Baharu
-                        </button>
                     </div>
                 </div>
 
@@ -423,12 +419,9 @@
                     <p class="text-xs text-slate-600">Persediaan kecenderungan bidang & kesediaan ke Sekolah Menengah.</p>
                     
                     <div class="space-y-2">
-                        <a id="psiko-t6-link" href="#" target="_blank" onclick="handleQuizOrFileClick('T6', event)" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
+                        <a id="psiko-t6-link" href="#" target="_blank" onclick="alert('Pautan Borang Ujian Psikometrik Tahun 6 dibuka.')" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
                             📝 Jawab Ujian / Muat Turun Fail T6
                         </a>
-                        <button onclick="openSectionFileUploadModal('psikometrik_t6')" class="admin-only hidden w-full bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold py-1.5 rounded-lg text-xs">
-                            📂 Upload Fail / Soalan Baharu
-                        </button>
                     </div>
                 </div>
             </div>
@@ -440,9 +433,6 @@
                         <h4 class="font-heading font-bold text-xl text-slate-900">📊 Analisis Data Psikometrik SK Kebagu</h4>
                         <p class="text-xs text-slate-500">Ringkasan Kecenderungan Kecerdasan Pelbagai Murid Tahap 2</p>
                     </div>
-                    <button onclick="openSectionFileUploadModal('psikometrik_chart_data')" class="admin-only hidden bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold px-3 py-2 rounded-xl text-xs">
-                        📂 Upload Fail Data Analisis Baharu
-                    </button>
                 </div>
                 <div class="h-64 relative">
                     <canvas id="psikometrikChart"></canvas>
@@ -469,46 +459,22 @@
                     <p class="text-xs text-slate-600 leading-relaxed">
                         Ujian ringkas bagi mengenalpasti tahap emosi dan emosi tenang murid di sekolah.
                     </p>
-                    
-                    <div class="space-y-3 pt-2">
-                        <div class="p-3 bg-amber-50 rounded-2xl border border-amber-200 text-xs">
-                            <span class="font-bold text-amber-900 block">Langkah 1:</span>
-                            Tekan butang mulakan ujian atau muat turun borang soalan di bawah.
-                        </div>
-                        <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs">
-                            <span class="font-bold text-emerald-900 block">Langkah 2:</span>
-                            Jawab soalan perasaan anda secara jujur.
-                        </div>
-                    </div>
 
-                    <a id="minda-sihat-quiz-link" href="#" onclick="handleQuizOrFileClick('MindaSihat', event)" class="block w-full text-center bg-amber-500 hover:bg-amber-600 text-slate-900 font-heading font-bold py-3 rounded-2xl text-sm transition shadow-md">
-                        🌈 Mulakan Ujian Minda Sihat / Muat Turun Fail
+                    <a id="minda-sihat-quiz-link" href="#" onclick="startInteractiveQuiz('vark')" class="block w-full text-center bg-amber-500 hover:bg-amber-600 text-slate-900 font-heading font-bold py-3 rounded-2xl text-sm transition shadow-md">
+                        🌈 Mulakan Ujian Minda Sihat Kendiri
                     </a>
-                    <button onclick="openSectionFileUploadModal('minda_sihat')" class="admin-only hidden w-full bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold py-2 rounded-xl text-xs">
-                        📂 Upload Fail Soalan Minda Sihat
-                    </button>
                 </div>
 
                 <!-- ANALISIS MINDA SIHAT -->
                 <div class="lg:col-span-7 bg-white border-2 border-slate-200 rounded-3xl p-6 space-y-4">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <h4 class="font-heading font-bold text-lg text-slate-900">📈 Analisis Minda Sihat Sekolah</h4>
-                        <div class="flex items-center gap-2 text-xs">
-                            <select id="chart-filter" onchange="updateMindaChart()" class="bg-slate-100 border border-slate-300 rounded-lg px-2.5 py-1.5 font-bold focus:outline-none">
-                                <option value="jantina">Mengikut Jantina</option>
-                                <option value="kelas">Mengikut Aliran Kelas</option>
-                            </select>
-                        </div>
                     </div>
                     <p class="text-xs text-slate-500">Statistik status kesejahteraan emosi murid SK Kebagu (Sejahtera vs Perlukan Bimbingan).</p>
                     
                     <div class="h-64 relative">
                         <canvas id="mindaSihatChart"></canvas>
                     </div>
-
-                    <button onclick="openSectionFileUploadModal('minda_sihat_chart_data')" class="admin-only hidden bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold px-3 py-1.5 rounded-xl text-xs w-full">
-                        📂 Upload Fail Laporan Analisis Minda Sihat
-                    </button>
                 </div>
             </div>
         </div>
@@ -571,124 +537,6 @@
         </div>
     </section>
 
-    <!-- PUSAT SIMPANAN DATA AUDITAN & PEMANTAUAN (AUDIT & INSPECTION VAULT) -->
-    <section id="admin-audit-vault" class="admin-only hidden py-14 bg-slate-950 text-slate-100 border-t-4 border-amber-400">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            <div class="border-b border-slate-800 pb-4">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold uppercase tracking-wider">
-                    📁 SIMPANAN DATA AUDITAN & PEMANTAUAN PPD/JPN
-                </div>
-                <h3 class="font-heading font-bold text-2xl text-white mt-1">Audit Vault UBK SK Kebagu</h3>
-                <p class="text-slate-400 text-xs">Pusat sehenti penyemakan dokumen rasmi, OPR, statistik sesi, dan senarai fail terlampir untuk tujuan semakan pemantauan.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-4 text-xs">
-                <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
-                    <h5 class="font-bold text-amber-300 mb-1">📑 Jumlah Rekod OPR Tersimpan</h5>
-                    <p id="vault-opr-count" class="text-2xl font-heading font-bold text-white">1 Fail</p>
-                </div>
-                <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
-                    <h5 class="font-bold text-emerald-300 mb-1">👥 Sesi Kaunseling Terkumpul</h5>
-                    <p id="vault-session-count" class="text-2xl font-heading font-bold text-white">74 Sesi (2026)</p>
-                </div>
-                <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
-                    <h5 class="font-bold text-sky-300 mb-1">🔒 Pusat Data Murid Excel</h5>
-                    <p id="vault-student-count" class="text-2xl font-heading font-bold text-white">3 Rekod</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PUSAT DATA MURID SEKOLAH (ADMIN ONLY PRIVATE DATA CENTER) -->
-    <section id="admin-data-center" class="admin-only hidden py-14 bg-slate-900 text-slate-100 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-4">
-                <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold uppercase tracking-wider">
-                        🔒 PRIVASI & SULIT: GBK SAHAJA
-                    </div>
-                    <h3 class="font-heading font-bold text-2xl text-white mt-1">Pusat Data Murid SK Kebagu</h3>
-                    <p class="text-slate-400 text-xs">Muat naik fail Excel (.xlsx / .csv) data senarai murid untuk simpanan peribadi GBK.</p>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <button onclick="downloadExcelTemplate()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-heading font-bold px-3 py-2 rounded-xl text-xs border border-amber-400/30">
-                        📄 Muat Turun Template Excel
-                    </button>
-                    <label class="bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold px-4 py-2 rounded-xl text-xs cursor-pointer shadow-md">
-                        📂 Upload Fail Excel Murid
-                        <input type="file" id="student-excel-input" accept=".xlsx, .xls, .csv" onchange="handleStudentExcelUpload(event)" class="hidden">
-                    </label>
-                </div>
-            </div>
-
-            <!-- Student Data Search & Filter -->
-            <div class="grid md:grid-cols-3 gap-4">
-                <input type="text" id="student-search-input" onkeyup="filterStudentTable()" placeholder="🔍 Cari nama murid atau MyKad..." class="bg-slate-800 border border-slate-700 text-white text-xs rounded-xl p-3 focus:outline-none focus:border-amber-400">
-                <select id="student-class-filter" onchange="filterStudentTable()" class="bg-slate-800 border border-slate-700 text-white text-xs rounded-xl p-3 focus:outline-none focus:border-amber-400">
-                    <option value="">Semua Kelas</option>
-                    <option value="Tahun 1">Tahun 1</option>
-                    <option value="Tahun 2">Tahun 2</option>
-                    <option value="Tahun 3">Tahun 3</option>
-                    <option value="Tahun 4">Tahun 4</option>
-                    <option value="Tahun 5">Tahun 5</option>
-                    <option value="Tahun 6">Tahun 6</option>
-                </select>
-                <div class="text-right text-xs text-slate-400 flex items-center justify-end font-bold">
-                    Jumlah Rekod: <span id="student-record-count" class="text-amber-300 ml-1">3</span>
-                </div>
-            </div>
-
-            <!-- Student Table -->
-            <div class="overflow-x-auto bg-slate-800 border border-slate-700 rounded-2xl shadow-xl">
-                <table class="w-full text-left text-xs text-slate-300">
-                    <thead class="bg-slate-950 text-amber-300 font-heading uppercase text-[11px] border-b border-slate-700">
-                        <tr>
-                            <th class="p-3.5">Bil</th>
-                            <th class="p-3.5">Nama Murid</th>
-                            <th class="p-3.5">Kelas</th>
-                            <th class="p-3.5">Jantina</th>
-                            <th class="p-3.5">Status Psikometrik / Catatan GBK</th>
-                            <th class="p-3.5 text-center">Tindakan</th>
-                        </tr>
-                    </thead>
-                    <tbody id="student-table-body" class="divide-y divide-slate-700/60">
-                        <tr>
-                            <td class="p-3.5">1</td>
-                            <td class="p-3.5 font-bold text-white">Ahmad Zaki Bin Rosli</td>
-                            <td class="p-3.5">4 Cemerlang</td>
-                            <td class="p-3.5">Lelaki</td>
-                            <td class="p-3.5"><span class="bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded">IAT4 Selesai</span></td>
-                            <td class="p-3.5 text-center">
-                                <button onclick="deleteStudentRow(this)" class="text-rose-400 hover:text-rose-300 font-bold">🗑️ Padam</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-3.5">2</td>
-                            <td class="p-3.5 font-bold text-white">Nur Aisyah Binti Mohd Haris</td>
-                            <td class="p-3.5">5 Bijak</td>
-                            <td class="p-3.5">Perempuan</td>
-                            <td class="p-3.5"><span class="bg-purple-900/60 text-purple-300 px-2 py-0.5 rounded">IKP T5 Selesai</span></td>
-                            <td class="p-3.5 text-center">
-                                <button onclick="deleteStudentRow(this)" class="text-rose-400 hover:text-rose-300 font-bold">🗑️ Padam</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-3.5">3</td>
-                            <td class="p-3.5 font-bold text-white">Mohd Irfan Bin Safwan</td>
-                            <td class="p-3.5">6 Pintar</td>
-                            <td class="p-3.5">Lelaki</td>
-                            <td class="p-3.5"><span class="bg-sky-900/60 text-sky-300 px-2 py-0.5 rounded">Perlukan Sesi Susulan</span></td>
-                            <td class="p-3.5 text-center">
-                                <button onclick="deleteStudentRow(this)" class="text-rose-400 hover:text-rose-300 font-bold">🗑️ Padam</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
     <!-- FOOTER -->
     <footer class="bg-slate-900 text-slate-400 py-8 text-xs border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
@@ -734,120 +582,6 @@
         </div>
     </div>
 
-    <!-- SECTION: MODUL ONE PAGE REPORT (OPR) BERKATEGORI & BERSEJARAH -->
-    <section id="opr-reports" class="py-14 bg-slate-50 border-y border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8">
-                <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">Dokumentasi Rasmi UBK</span>
-                    <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Pusat Laporan One Page Report (OPR)</h3>
-                    <p class="text-slate-600 text-sm mt-1">Koleksi Laporan Ringkas 1 Muka Surat mengikut Kategori & Rekod Sejarah Aktiviti.</p>
-                </div>
-                
-                <div class="flex flex-wrap items-center gap-2 mt-4 md:mt-0">
-                    <select id="opr-year-filter" onchange="filterOprReports()" class="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold shadow-sm">
-                        <option value="ALL">Semua Tahun</option>
-                        <option value="2026" selected>Tahun 2026</option>
-                        <option value="2025">Tahun 2025</option>
-                        <option value="2024">Tahun 2024</option>
-                    </select>
-
-                    <select id="opr-category-filter" onchange="filterOprReports()" class="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold shadow-sm">
-                        <option value="ALL">Semua Kategori</option>
-                        <option value="Program Terkini">Program Terkini</option>
-                        <option value="Sahsiah">Sahsiah & Disiplin</option>
-                        <option value="Kerjaya">Kerjaya & Akademik</option>
-                        <option value="Minda Sihat">Minda Sihat</option>
-                    </select>
-
-                    <button onclick="openOprUploadModal()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold px-3.5 py-2 rounded-xl text-xs shadow-md">
-                        📑 + Upload Fail OPR Baharu
-                    </button>
-                </div>
-            </div>
-
-            <!-- OPR Grid Container -->
-            <div id="opr-grid-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="opr-card bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-sm space-y-3 relative" data-year="2026" data-category="Minda Sihat">
-                    <button onclick="removeOprCard(this)" class="admin-only hidden absolute top-3 right-3 text-rose-500 font-bold text-xs" title="Padam OPR">🗑️</button>
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="bg-amber-100 text-amber-800 font-bold px-2.5 py-0.5 rounded-md">MINDA SIHAT</span>
-                        <span class="font-bold text-slate-400">📅 2026</span>
-                    </div>
-                    <h4 class="font-heading font-bold text-slate-900 text-base">OPR Kempen Pelancaran Minda Sihat</h4>
-                    <p class="text-xs text-slate-500">Laporan Aktiviti Senam Seni & Ekspresi Emosi Murid SK Kebagu.</p>
-                    <a href="https://placehold.co/600x800/16a34a/ffffff?text=OPR+MINDA+SIHAT" target="_blank" class="block w-full text-center bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-700 font-heading font-bold py-2 rounded-xl text-xs transition">
-                        📄 Lihat / Muat Turun Fail OPR (PDF/Image)
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION: PEMBUAT INVENTORI INTERAKTIF & ENGINE PENILAIAN AI -->
-    <section id="ai-inventory-builder" class="py-14 bg-gradient-to-br from-indigo-900 via-slate-900 to-emerald-950 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-6 gap-4">
-                <div>
-                    <span class="bg-amber-400 text-slate-900 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Engine Penilaian Pintar UBK</span>
-                    <h3 class="font-heading font-bold text-3xl mt-2">Ujian & Inventori Interaktif Kendiri</h3>
-                    <p class="text-slate-400 text-sm">Murid boleh menjawab soalan inventori di sini dan menerima keputusan penilaian AI secara serta-merta!</p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="openCustomQuizModal()" class="admin-only hidden bg-amber-400 hover:bg-amber-500 text-slate-900 font-heading font-bold px-4 py-2.5 rounded-2xl text-xs shadow-md">
-                        🧠 + Tambah Inventori & Formulasi AI Baharu
-                    </button>
-                </div>
-            </div>
-
-            <!-- Quiz Display Grid for Students -->
-            <div id="quiz-list-container" class="grid md:grid-cols-2 gap-6">
-                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 space-y-4">
-                    <div class="flex items-center justify-between">
-                        <span class="bg-sky-400/20 text-sky-300 text-xs font-bold px-3 py-1 rounded-full border border-sky-400/30">INVENTORI AKADEMIK</span>
-                        <span class="text-xs text-slate-400">2 Soalan Ringkas</span>
-                    </div>
-                    <h4 class="font-heading font-bold text-xl text-amber-300">Inventori Gaya Pembelajaran Murid (VARK)</h4>
-                    <p class="text-xs text-slate-300">Ujian bagi menguji samada anda seorang murid jenis Visual (Melihat), Auditori (Mendengar), atau Kinestetik (Pergerakan).</p>
-                    <button onclick="startInteractiveQuiz('vark')" class="w-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-heading font-bold py-3 rounded-2xl transition shadow-md text-xs">
-                        🚀 Mula Jawab Inventori & Dapatkan Analisis AI
-                    </button>
-                </div>
-            </div>
-
-            <!-- Quiz Runner Modal -->
-            <div id="quiz-runner-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-                <div class="bg-white text-slate-900 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative space-y-6">
-                    <button onclick="closeQuizRunnerModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
-                    
-                    <div id="quiz-question-screen" class="space-y-4">
-                        <div class="flex justify-between items-center text-xs text-slate-500 font-bold border-b pb-2">
-                            <span id="quiz-runner-title">Ujian Interaktif</span>
-                            <span id="quiz-runner-progress">Soalan 1 / 2</span>
-                        </div>
-                        <h4 id="quiz-question-text" class="font-heading font-bold text-lg text-slate-900">Soalan...</h4>
-                        <div id="quiz-options-container" class="space-y-2"></div>
-                    </div>
-
-                    <!-- AI Result Output -->
-                    <div id="quiz-result-screen" class="hidden space-y-4 text-center">
-                        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto shadow-md">
-                            🎯
-                        </div>
-                        <h4 class="font-heading font-bold text-2xl text-slate-900">Keputusan & Ulasan AI UBK</h4>
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-left space-y-2 text-xs">
-                            <p class="font-bold text-slate-800 text-sm" id="ai-result-category">Kategori Utama: -</p>
-                            <p class="text-slate-600 leading-relaxed" id="ai-result-advice">Ulasan AI sedang diproses...</p>
-                        </div>
-                        <button onclick="closeQuizRunnerModal()" class="w-full bg-emerald-600 text-white font-heading font-bold py-3 rounded-xl">
-                            Selesai & Kembali Ke Portal
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- MODAL: THEME & COLOR CUSTOMIZER -->
     <div id="theme-customizer-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white text-slate-900 rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100 space-y-4">
@@ -864,15 +598,6 @@
                 <div>
                     <label class="block font-bold mb-1">Sub-Tajuk Portal</label>
                     <input type="text" id="theme-subtitle-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
-                </div>
-                <div>
-                    <label class="block font-bold mb-1">Pilih Skema Warna Latar Utama</label>
-                    <select id="theme-color-select" onchange="applyPortalTheme(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold">
-                        <option value="emerald">Hijau Sejahtera (Emerald Standard)</option>
-                        <option value="sky">Biru Ceria (Sky Blue)</option>
-                        <option value="amber">Kuning Harapan (Amber Warm)</option>
-                        <option value="purple">Ungu Kreatif (Purple Royal)</option>
-                    </select>
                 </div>
                 <div>
                     <label class="block font-bold mb-1">Muat Naik Fail Lagu Latar (.mp3 / .wav)</label>
@@ -892,13 +617,12 @@
         let isAdminLoggedIn = false;
         let isMusicPlaying = false;
 
-        // Initialize state & charts on Window Load
         window.onload = function() {
             initCharts();
             loadSavedPortalState();
         };
 
-        // ADMIN ACCESS & AUTH
+        // ADMIN LOGIN
         function promptAdminLogin() {
             if (isAdminLoggedIn) {
                 if (confirm("Log keluar dari Mod Admin?")) {
@@ -918,7 +642,7 @@
             }
         }
 
-        // BACKGROUND MUSIC AUTOPLAY & TOGGLE LOGIC
+        // BACKGROUND MUSIC PLAY/STOP & UPLOAD
         function toggleBackgroundMusic() {
             const audio = document.getElementById('bg-audio');
             const icon = document.getElementById('music-icon');
@@ -935,7 +659,7 @@
                     icon.classList.add('animate-spin');
                     statusText.innerText = "🎵 Muzik (On)";
                 }).catch(err => {
-                    alert("Sila klik di mana-mana kawasan skrin terlebih dahulu untuk membolehkan audio dimainkan.");
+                    alert("Sila klik skrin terlebih dahulu untuk membenarkan audio dimainkan.");
                 });
             }
         }
@@ -952,7 +676,7 @@
             }
         }
 
-        // PERSISTENCE (LOCALSTORAGE SAVE & UNDO)
+        // SAVE & UNDO DATA
         function savePortalState() {
             const portalData = {
                 schoolTitle: document.getElementById('school-title-display').innerText,
@@ -990,7 +714,38 @@
             }
         }
 
-        // THEME & COLOR CUSTOMIZER
+        // COUNTER EDITORS
+        function updateSessionCount(type, delta) {
+            const el = document.getElementById(`count-${type}-display`);
+            const inputEl = document.getElementById(`input-${type}-count`);
+            let count = parseInt(el.innerText) || 0;
+            count = Math.max(0, count + delta);
+            el.innerText = count;
+            if (inputEl) inputEl.value = count;
+        }
+
+        function setManualSessionCount(type) {
+            const inputEl = document.getElementById(`input-${type}-count`);
+            const el = document.getElementById(`count-${type}-display`);
+            let count = parseInt(inputEl.value) || 0;
+            el.innerText = count;
+        }
+
+        // STUDENT VOICE MODAL
+        function openAnonModal() { document.getElementById('anon-modal').classList.remove('hidden'); }
+        function closeAnonModal() { document.getElementById('anon-modal').classList.add('hidden'); }
+        function sendAnonMessage() {
+            const msg = document.getElementById('anon-text').value;
+            if (msg.trim() === "") {
+                alert("Sila tuliskan luahan anda.");
+                return;
+            }
+            alert("Luahan anda telah berjaya dihantar secara rahsia kepada GBK!");
+            document.getElementById('anon-text').value = "";
+            closeAnonModal();
+        }
+
+        // THEME MODAL
         function openThemeCustomizerModal() {
             document.getElementById('theme-title-input').value = document.getElementById('school-title-display').innerText;
             document.getElementById('theme-subtitle-input').value = document.getElementById('school-subtitle-display').innerText;
@@ -1007,154 +762,13 @@
             alert("Kemas kini warna & tajuk portal berjaya!");
         }
 
-        function applyPortalTheme(color) {
-            const body = document.body;
-            body.className = body.className.replace(/bg-\w+-\d+\/\d+/g, '');
-            if (color === 'sky') body.classList.add('bg-sky-50/30');
-            else if (color === 'amber') body.classList.add('bg-amber-50/30');
-            else if (color === 'purple') body.classList.add('bg-purple-50/30');
-            else body.classList.add('bg-amber-50/30');
-        }
-
-        // OPR REPORT ARCHIVE & FILTERS
-        function openOprUploadModal() { document.getElementById('opr-upload-modal').classList.remove('hidden'); }
-        function closeOprUploadModal() { document.getElementById('opr-upload-modal').classList.add('hidden'); }
-
-        function handleOprUpload(e) {
+        // BOOKING FORM SUBMIT
+        function handleBookingSubmit(e) {
             e.preventDefault();
-            const year = document.getElementById('opr-year-input').value;
-            const category = document.getElementById('opr-category-input').value;
-            const title = document.getElementById('opr-title-input').value;
-            const fileInput = document.getElementById('opr-file-input');
-
-            if (fileInput.files && fileInput.files[0]) {
-                const fileUrl = URL.createObjectURL(fileInput.files[0]);
-                const oprContainer = document.getElementById('opr-grid-container');
-                
-                const newOprCard = `
-                    <div class="opr-card bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-sm space-y-3 relative" data-year="${year}" data-category="${category}">
-                        <button onclick="removeOprCard(this)" class="admin-only ${isAdminLoggedIn ? '' : 'hidden'} absolute top-3 right-3 text-rose-500 font-bold text-xs" title="Padam OPR">🗑️</button>
-                        <div class="flex items-center justify-between text-xs">
-                            <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-md">${category.toUpperCase()}</span>
-                            <span class="font-bold text-slate-400">📅 ${year}</span>
-                        </div>
-                        <h4 class="font-heading font-bold text-slate-900 text-base">${title}</h4>
-                        <p class="text-xs text-slate-500">Laporan Rasmi OPR Unit Bimbingan dan Kaunseling.</p>
-                        <a href="${fileUrl}" target="_blank" class="block w-full text-center bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-700 font-heading font-bold py-2 rounded-xl text-xs transition">
-                            📄 Lihat Fail OPR (${fileInput.files[0].name})
-                        </a>
-                    </div>
-                `;
-                oprContainer.insertAdjacentHTML('afterbegin', newOprCard);
-                closeOprUploadModal();
-                alert("Fail OPR baharu berjaya ditambahkan ke dalam rekod!");
-            }
-        }
-
-        function removeOprCard(btn) {
-            if (confirm("Padam rekod laporan OPR ini?")) {
-                btn.closest('.opr-card').remove();
-            }
-        }
-
-        function filterOprReports() {
-            const yearVal = document.getElementById('opr-year-filter').value;
-            const catVal = document.getElementById('opr-category-filter').value;
-            const cards = document.querySelectorAll('.opr-card');
-
-            cards.forEach(card => {
-                const cardYear = card.getAttribute('data-year');
-                const cardCat = card.getAttribute('data-category');
-
-                const matchYear = (yearVal === 'ALL' || cardYear === yearVal);
-                const matchCat = (catVal === 'ALL' || cardCat === catVal);
-
-                if (matchYear && matchCat) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        // INTERACTIVE AI QUIZ ENGINE
-        const sampleVarkQuiz = [
-            {
-                question: "1. Apabila anda mempelajari sesuatu topik baharu di kelas, anda lebih suka:",
-                options: [
-                    { text: "Melihat carta, gambar rajah, dan video penjelasan", type: "Visual" },
-                    { text: "Mendengar penerangan guru secara lisan", type: "Auditori" },
-                    { text: "Melakukan sendiri aktiviti amali dan eksperimen", type: "Kinestetik" }
-                ]
-            },
-            {
-                question: "2. Semasa membuat persediaan sebelum ujian, cara terbaik anda mengingati fakta ialah:",
-                options: [
-                    { text: "Membaca nota berwarna-warni dan lukisan minda", type: "Visual" },
-                    { text: "Membaca nota dengan suara nyaring atau berbincang", type: "Auditori" },
-                    { text: "Menaip nota sambil bergerak atau menulis semula", type: "Kinestetik" }
-                ]
-            }
-        ];
-
-        let currentAnswers = [];
-
-        function startInteractiveQuiz(quizType) {
-            currentAnswers = [];
-            document.getElementById('quiz-question-screen').classList.remove('hidden');
-            document.getElementById('quiz-result-screen').classList.add('hidden');
-            document.getElementById('quiz-runner-modal').classList.remove('hidden');
-
-            renderQuestion(0);
-        }
-
-        function renderQuestion(index) {
-            const qData = sampleVarkQuiz[index];
-            document.getElementById('quiz-runner-progress').innerText = `Soalan ${index + 1} / ${sampleVarkQuiz.length}`;
-            document.getElementById('quiz-question-text').innerText = qData.question;
-
-            const container = document.getElementById('quiz-options-container');
-            container.innerHTML = '';
-
-            qData.options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = "w-full text-left p-3.5 bg-slate-100 hover:bg-emerald-100 hover:border-emerald-500 border border-slate-200 rounded-2xl text-xs font-bold transition flex items-center justify-between";
-                btn.innerHTML = `<span>${opt.text}</span> <i class="fa-solid fa-chevron-right text-slate-400"></i>`;
-                btn.onclick = () => {
-                    currentAnswers.push(opt.type);
-                    if (index + 1 < sampleVarkQuiz.length) {
-                        renderQuestion(index + 1);
-                    } else {
-                        computeAiDiagnosticResult();
-                    }
-                };
-                container.appendChild(btn);
-            });
-        }
-
-        function computeAiDiagnosticResult() {
-            document.getElementById('quiz-question-screen').classList.add('hidden');
-            document.getElementById('quiz-result-screen').classList.remove('hidden');
-
-            const counts = {};
-            currentAnswers.forEach(ans => counts[ans] = (counts[ans] || 0) + 1);
-            const dominantType = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
-
-            let adviceText = "";
-            if (dominantType === "Visual") {
-                adviceText = "AI Diagnostic: Anda seorang Pelajar Visual! Anda paling berkesan belajar menggunakan peta minda, visual grafik, dan nota berwarna-warni.";
-            } else if (dominantType === "Auditori") {
-                adviceText = "AI Diagnostic: Anda seorang Pelajar Auditori! Anda sangat peka pada penerangan lisan. Cuba dengar rakaman pengajaran atau terangkan semula fakta kepada rakan sekelas.";
-            } else {
-                adviceText = "AI Diagnostic: Anda seorang Pelajar Kinestetik! Anda suka belajar melalui pergerakan dan amali. Selang-selikan masa belajar 20 minit dengan aktiviti regangan badan.";
-            }
-
-            document.getElementById('ai-result-category').innerText = `Kecenderungan Utama: Pelajar ${dominantType}`;
-            document.getElementById('ai-result-advice').innerText = adviceText;
-        }
-
-        function closeQuizRunnerModal() {
-            document.getElementById('quiz-runner-modal').classList.add('hidden');
+            document.getElementById('booking-success').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('booking-form').reset();
+            }, 1000);
         }
 
         // CHART INIT
