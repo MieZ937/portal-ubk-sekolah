@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal e-UBK Sekolah Rendah</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for Interactive Data Analysis -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ubk: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            yellow: '#facc15',
+                            orange: '#fb923c',
+                            blue: '#38bdf8',
+                            purple: '#c084fc'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Fredoka', 'cursive', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .bg-kids-pattern {
+            background-image: radial-gradient(rgba(34, 197, 94, 0.15) 2px, transparent 2px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="bg-amber-50/30 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- NAVIGATION BAR -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-2 border-emerald-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-ubk-500 to-teal-400 flex items-center justify-center text-white text-2xl shadow-md shadow-emerald-500/20">
+                        🌟
+                    </div>
+                    <div>
+                        <span class="font-heading font-bold text-xl text-slate-900 block leading-tight">e-UBK Sekolah Rendah</span>
+                        <span class="text-xs text-ubk-600 font-semibold">Unit Bimbingan & Kaunseling Mesra Murid</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center space-x-5 text-sm">
+                    <a href="#utama" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Utama</a>
+                    <a href="#profil" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Profil GBK</a>
+                    <a href="#fokus" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">4 Fokus</a>
+                    <a href="#psikometrik" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Psikometrik</a>
+                    <a href="#minda-sihat" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Minda Sihat 🧠</a>
+                    <a href="#temujanji" class="bg-gradient-to-r from-ubk-500 to-teal-600 hover:from-ubk-600 hover:to-teal-700 text-white font-heading font-bold px-4 py-2 rounded-full transition shadow-md flex items-center gap-1.5">
+                        💬 E-Kaunseling
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-700 hover:text-slate-900 focus:outline-none p-2 text-2xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b-2 border-emerald-200 px-4 pt-2 pb-4 space-y-2 font-heading text-sm">
+            <a href="#utama" class="block py-2 text-slate-700 font-semibold">Utama</a>
+            <a href="#profil" class="block py-2 text-slate-700 font-semibold">Profil GBK</a>
+            <a href="#fokus" class="block py-2 text-slate-700 font-semibold">4 Fokus Utama</a>
+            <a href="#psikometrik" class="block py-2 text-slate-700 font-semibold">Ujian Psikometrik</a>
+            <a href="#minda-sihat" class="block py-2 text-slate-700 font-semibold">Sudut Minda Sihat 🧠</a>
+            <a href="#temujanji" class="block w-full text-center bg-ubk-500 text-white font-bold py-2.5 rounded-full mt-2">💬 E-Kaunseling</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="utama" class="relative bg-gradient-to-b from-emerald-100/50 via-white to-amber-50/40 pt-8 pb-16 overflow-hidden bg-kids-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 text-ubk-800 text-xs font-bold uppercase tracking-wider border border-emerald-300">
+                        🌈 Sekolahku SEJAHTERA & Ceria!
+                    </div>
+                    <h1 class="font-heading font-extrabold text-4xl sm:text-5xl text-slate-900 leading-tight">
+                        Selamat Datang ke Portal <span class="text-transparent bg-clip-text bg-gradient-to-r from-ubk-600 to-teal-600">Digital UBK!</span>
+                    </h1>
+                    <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
+                        Pusat Henti Setempat (One-Stop Centre) perkhidmatan Bimbingan, Kaunseling, Psikometrik, dan Kesejahteraan Minda Sihat murid-murid. 🎈
+                    </p>
+
+                    <!-- Quick Action Buttons -->
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-3 pt-2">
+                        <a href="#minda-sihat" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-heading font-bold px-5 py-3 rounded-2xl transition shadow-md flex items-center gap-2 text-sm">
+                            🧠 Ujian Minda Sihat
+                        </a>
+                        <a href="#psikometrik" class="bg-sky-500 hover:bg-sky-600 text-white font-heading font-bold px-5 py-3 rounded-2xl transition shadow-md flex items-center gap-2 text-sm">
+                            📊 Ujian Psikometrik (T4, T5, T6)
+                        </a>
+                        <a href="#temujanji" class="bg-ubk-600 hover:bg-ubk-700 text-white font-heading font-bold px-5 py-3 rounded-2xl transition shadow-md flex items-center gap-2 text-sm">
+                            💬 Temu Janji GBK
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 relative">
+                    <div class="bg-white p-6 rounded-3xl shadow-xl border-4 border-emerald-100 space-y-4 text-center">
+                        <div class="w-16 h-16 bg-yellow-100 text-3xl rounded-2xl mx-auto flex items-center justify-center">
+                            📢
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-slate-900">Sudut Info UBK Minggu Ini</h3>
+                        <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-left space-y-1">
+                            <span class="text-[11px] font-bold text-ubk-700 bg-ubk-200 px-2.5 py-0.5 rounded-full">KEMPEN MINDA SIHAT</span>
+                            <h4 class="font-heading font-bold text-sm text-slate-800">Senyum & Kawal Emosi!</h4>
+                            <p class="text-xs text-slate-600">Jom ambil Ujian Minda Sihat kendiri di bahagian bawah untuk mengetahui tahap keceriaan anda! 🤝</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFIL GURU BIMBINGAN DAN KAUNSELING -->
+    <section id="profil" class="py-14 bg-white border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">Barisan GBK</span>
+                <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Carta Organisasi UBK</h3>
+                <p class="text-slate-600 text-sm mt-1">Cikgu Kaunseling sentiasa sedia membantu dan mendengar masalah anda.</p>
+            </div>
+
+            <!-- GBK Team Cards -->
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-emerald-50/50 border-2 border-emerald-200 rounded-3xl p-6 text-center shadow-sm hover:shadow-md transition">
+                    <div class="w-28 h-28 rounded-full bg-emerald-200 mx-auto mb-4 overflow-hidden border-4 border-white shadow-md">
+                        <img src="https://placehold.co/200x200/16a34a/ffffff?text=Cikgu+Ahmad" alt="GBK 1" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="font-heading font-bold text-slate-900 text-xl">Encik Ahmad Bin Razali</h4>
+                    <p class="text-xs text-ubk-700 font-bold mb-2">Guru Bimbingan & Kaunseling (Tahap 2)</p>
+                    <p class="text-xs text-slate-600 mb-4">Fokus: Psikometrik Tahun 4 & 6, Sahsiah & Kerjaya</p>
+                    <a href="#temujanji" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-heading font-bold bg-ubk-600 text-white hover:bg-ubk-700 transition">
+                        💬 Hubungi Cikgu Ahmad
+                    </a>
+                </div>
+
+                <div class="bg-teal-50/50 border-2 border-teal-200 rounded-3xl p-6 text-center shadow-sm hover:shadow-md transition">
+                    <div class="w-28 h-28 rounded-full bg-teal-200 mx-auto mb-4 overflow-hidden border-4 border-white shadow-md">
+                        <img src="https://placehold.co/200x200/0d9488/ffffff?text=Cikgu+Siti" alt="GBK 2" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="font-heading font-bold text-slate-900 text-xl">Puan Siti Aminah Binti Ali</h4>
+                    <p class="text-xs text-teal-700 font-bold mb-2">Guru Bimbingan & Kaunseling (Tahap 1 & Transisi)</p>
+                    <p class="text-xs text-slate-600 mb-4">Fokus: Sudut Minda Sihat, IKP Tahun 5 & PRS Muda</p>
+                    <a href="#temujanji" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-heading font-bold bg-teal-600 text-white hover:bg-teal-700 transition">
+                        💬 Hubungi Cikgu Siti
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4 FOKUS UTAMA UBK SEKOLAH RENDAH -->
+    <section id="fokus" class="py-14 bg-amber-50/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">Perkhidmatan Utama</span>
+                <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">4 Fokus Bimbingan UBK</h3>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-3xl border-2 border-emerald-100 shadow-sm text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-2xl flex items-center justify-center mx-auto mb-3">🌱</div>
+                    <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">1. Sahsiah & Disiplin</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Pembentukan watak terpuji, adab sopan, dan amalan baik SSDM.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border-2 border-sky-100 shadow-sm text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-sky-100 text-2xl flex items-center justify-center mx-auto mb-3">🚀</div>
+                    <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">2. Disiplin & Kerohanian</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Kempen kehadiran 100%, pembinaan jati diri, dan ketahanan mental.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border-2 border-purple-100 shadow-sm text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-100 text-2xl flex items-center justify-center mx-auto mb-3">🎓</div>
+                    <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">3. Kerjaya & Akademik</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Penerokaan cita-cita, minat akademik, & persediaan ke sekolah menengah.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border-2 border-amber-100 shadow-sm text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-2xl flex items-center justify-center mx-auto mb-3">❤️</div>
+                    <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">4. Kesejahteraan Mental</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Pengurusan emosi, keceriaan minda, & intervensi psikososial murid.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAHAGIAN INVENTORI & PSIKOMETRIK -->
+    <section id="psikometrik" class="py-14 bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold uppercase tracking-wider">Pentaksiran Psikometrik (PPSI)</span>
+                <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Inventori & Ujian Psikometrik Murid</h3>
+                <p class="text-slate-600 text-sm mt-1">Pilih mengikut tingkatan/tahun anda untuk menjawab ujian kendiri atau melihat analisis data.</p>
+            </div>
+
+            <!-- Ujian Links Grid -->
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                <!-- Tahun 4 -->
+                <div class="bg-gradient-to-br from-sky-50 to-blue-50 border-2 border-sky-200 rounded-3xl p-6 space-y-4">
+                    <span class="text-xs font-bold bg-sky-200 text-sky-800 px-3 py-1 rounded-full">TAHUN 4</span>
+                    <h4 class="font-heading font-bold text-xl text-slate-900">Inventori Aptitud Tahun 4 (IAT4)</h4>
+                    <p class="text-xs text-slate-600">Mengenal pasti kebolehan mental & kemahiran persepsi awal murid.</p>
+                    <button onclick="alert('Membuka Borang Inventori Aptitud Tahun 4...')" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
+                        📝 Jawab Ujian Aptitud T4
+                    </button>
+                </div>
+
+                <!-- Tahun 5 -->
+                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 rounded-3xl p-6 space-y-4">
+                    <span class="text-xs font-bold bg-purple-200 text-purple-800 px-3 py-1 rounded-full">TAHUN 5</span>
+                    <h4 class="font-heading font-bold text-xl text-slate-900">Inventori Kecerdasan Pelbagai (IKP)</h4>
+                    <p class="text-xs text-slate-600">Mengukur 9 domain kecerdasan (Verbal, Visual, Logik, Muzik, Kinestetik, dll).</p>
+                    <button onclick="alert('Membuka Borang Inventori Kecerdasan Pelbagai Tahun 5...')" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
+                        📝 Jawab Ujian IKP T5
+                    </button>
+                </div>
+
+                <!-- Tahun 6 -->
+                <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-3xl p-6 space-y-4">
+                    <span class="text-xs font-bold bg-emerald-200 text-emerald-800 px-3 py-1 rounded-full">TAHUN 6</span>
+                    <h4 class="font-heading font-bold text-xl text-slate-900">Inventori Aptitud & Minat Kerjaya (IAT6)</h4>
+                    <p class="text-xs text-slate-600">Persediaan kecenderungan bidang & kesediaan ke Sekolah Menengah.</p>
+                    <button onclick="alert('Membuka Borang Inventori Aptitud & Kerjaya Tahun 6...')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
+                        📝 Jawab Ujian Aptitud T6
+                    </button>
+                </div>
+            </div>
+
+            <!-- ANALISIS DATA PSIKOMETRIK -->
+            <div class="bg-slate-50 border-2 border-slate-200 rounded-3xl p-6 sm:p-8">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    <div>
+                        <h4 class="font-heading font-bold text-xl text-slate-900">📊 Analisis Data Psikometrik Sekolah</h4>
+                        <p class="text-xs text-slate-500">Ringkasan Kecenderungan Kecerdasan Pelbagai Murid Tahap 2</p>
+                    </div>
+                </div>
+                <div class="h-64 relative">
+                    <canvas id="psikometrikChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAHAGIAN SUDUT MINDA SIHAT -->
+    <section id="minda-sihat" class="py-14 bg-amber-50/40 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="px-3 py-1 rounded-full bg-amber-200 text-amber-900 text-xs font-bold uppercase tracking-wider">Kesihatan Mental & Emosi</span>
+                <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Sudut Minda Sihat</h3>
+                <p class="text-slate-600 text-sm mt-1">Ukur tahap kesejahteraan emosi anda dan lihat laporan analisis perbandingan sekolah.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-start mb-12">
+                <!-- Info & Interactive Quiz -->
+                <div class="lg:col-span-5 bg-white border-2 border-amber-200 rounded-3xl p-6 space-y-4">
+                    <h4 class="font-heading font-bold text-xl text-slate-900 flex items-center gap-2">
+                        <span>😊</span> Ujian Minda Sihat Kendiri
+                    </h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Ujian ringkas bagi mengenalpasti tahap emosi dan emosi tenang murid di sekolah.
+                    </p>
+                    
+                    <div class="space-y-3 pt-2">
+                        <div class="p-3 bg-amber-50 rounded-2xl border border-amber-200 text-xs">
+                            <span class="font-bold text-amber-900 block">Langkah 1:</span>
+                            Tekan butang mulakan ujian di bawah.
+                        </div>
+                        <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs">
+                            <span class="font-bold text-emerald-900 block">Langkah 2:</span>
+                            Jawab soalan perasaan anda secara jujur.
+                        </div>
+                    </div>
+
+                    <button onclick="alert('Membuka Borang Ujian Saringan Minda Sihat Digital...')" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-heading font-bold py-3 rounded-2xl text-sm transition shadow-md">
+                        🌈 Mulakan Ujian Minda Sihat
+                    </button>
+                </div>
+
+                <!-- ANALISIS MINDA SIHAT (BERDASARKAN KELAS DAN JANTINA) -->
+                <div class="lg:col-span-7 bg-white border-2 border-slate-200 rounded-3xl p-6 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <h4 class="font-heading font-bold text-lg text-slate-900">📈 Analisis Minda Sihat Sekolah</h4>
+                        <!-- Filter drop downs -->
+                        <div class="flex items-center gap-2 text-xs">
+                            <select id="chart-filter" onchange="updateMindaChart()" class="bg-slate-100 border border-slate-300 rounded-lg px-2.5 py-1.5 font-bold focus:outline-none">
+                                <option value="jantina">Mengikut Jantina</option>
+                                <option value="kelas">Mengikut Aliran Kelas</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500">Statistik status kesejahteraan emosi murid (Sejahtera vs Perlukan Bimbingan).</p>
+                    
+                    <div class="h-64 relative">
+                        <canvas id="mindaSihatChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BORANG TEMPAHAN TEMUJANJI (E-KAUNSELING) -->
+    <section id="temujanji" class="py-14 bg-emerald-50/40 border-t border-slate-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <span class="px-3 py-1 rounded-full bg-ubk-100 text-ubk-800 text-xs font-bold uppercase tracking-wider">Perkhidmatan Mesra Privasi</span>
+                <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Borang Temu Janji E-Kaunseling</h3>
+                <p class="text-slate-600 text-sm mt-1">Boleh diisi oleh Murid, Guru, atau Ibu Bapa untuk merujuk atau membuat sesi bimbingan.</p>
+            </div>
+
+            <div class="bg-white border-2 border-emerald-200 rounded-3xl p-6 sm:p-8 shadow-sm">
+                <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nama Murid</label>
+                            <input type="text" id="student-name" placeholder="Contoh: Adam Bin Haris" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ubk-500 focus:outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Tahun / Kelas</label>
+                            <input type="text" id="student-class" placeholder="Contoh: 4 Cemerlang" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ubk-500 focus:outline-none" required>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">No. Telefon (Ibu Bapa / Penjaga)</label>
+                            <input type="tel" id="student-phone" placeholder="012-3456789" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ubk-500 focus:outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Tujuan / Fokus Bimbingan</label>
+                            <select id="category-select" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ubk-500 focus:outline-none" required>
+                                <option value="Kesejahteraan Emosi">Emosi & Minda Sihat</option>
+                                <option value="Masalah Kawan">Masalah Kawan / Buli</option>
+                                <option value="Pelajaran">Susah Belajar / Akademik</option>
+                                <option value="Psikometrik">Perbincangan Keputusan Psikometrik</option>
+                                <option value="Lain-lain">Sebab Lain</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Catatan Ringkas Kepada GBK</label>
+                        <textarea id="booking-notes" rows="3" placeholder="Tuliskan pesanan anda secara beretika..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ubk-500 focus:outline-none"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-ubk-600 to-teal-600 hover:from-ubk-700 hover:to-teal-700 text-white font-heading font-bold py-3 rounded-2xl transition shadow-md flex items-center justify-center gap-2 text-base">
+                        🚀 Hantar Tempahan Temu Janji
+                    </button>
+                </form>
+
+                <!-- Feedback Toast -->
+                <div id="booking-success" class="hidden mt-4 p-4 rounded-2xl bg-emerald-100 text-emerald-800 text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                    Permohonan temu janji berjaya dihantar! Guru Bimbingan dan Kaunseling akan menghubungi anda. 😊
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KOTAK LUAHAN ANONYMOUS & TALIAN KRISIS -->
+    <section class="py-12 bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <!-- Anonymous Box Banner -->
+            <div class="bg-gradient-to-r from-teal-500 to-emerald-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2 text-center md:text-left">
+                    <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">🔒 Rahsia Tanpa Nama</span>
+                    <h3 class="font-heading font-bold text-2xl">Kotak Luahan Digital Rahsia</h3>
+                    <p class="text-xs text-emerald-100 max-w-md">Ada aduan atau masalah tapi takut nak beritahu nama? Tulis secara rahsia di sini.</p>
+                </div>
+                <button onclick="openAnonModal()" class="bg-white text-slate-900 font-heading font-bold px-6 py-3 rounded-2xl hover:bg-emerald-50 transition shadow-md flex items-center gap-2 whitespace-nowrap">
+                    🤫 Tulis Luahan Rahsia
+                </button>
+            </div>
+
+            <!-- Helpline Grid -->
+            <div class="bg-slate-50 border border-slate-200 rounded-3xl p-6 text-center">
+                <h4 class="font-heading font-bold text-slate-900 mb-4">☎️ Talian Krisis Kesihatan Mental & Bantuan (24 Jam)</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-bold">
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-emerald-600 block text-base">Talian HEAL KKM</span>
+                        <span class="text-slate-800 text-sm">📞 15555</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-sky-600 block text-base">Talian Kasih</span>
+                        <span class="text-slate-800 text-sm">📞 15999 / WhatsApp 019-2615999</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-purple-600 block text-base">Befrienders KL</span>
+                        <span class="text-slate-800 text-sm">📞 03-76272929</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-8 text-xs border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+            <div class="flex justify-center items-center space-x-2">
+                <span class="text-xl">🌟</span>
+                <span class="font-heading font-bold text-slate-200 text-base">Unit Bimbingan & Kaunseling Sekolah Rendah</span>
+            </div>
+            <p>© 2026 e-UBK. Hak Cipta Terpelihara. "Anak Yang Baik Lagi Cerdik (ABC)".</p>
+        </div>
+    </footer>
+
+    <!-- ANONYMOUS MODAL -->
+    <div id="anon-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <h4 class="font-heading font-bold text-slate-900 flex items-center gap-2 text-lg">
+                    🤫 Kotak Luahan Rahsia
+                </h4>
+                <button onclick="closeAnonModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-500 mb-3">Ceritakan masalah anda. Nama anda TIDAK akan direkodkan sama sekali.</p>
+            <textarea id="anon-text" rows="4" placeholder="Tulis luahan anda di sini..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ubk-500 focus:outline-none mb-4"></textarea>
+            <button onclick="sendAnonMessage()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl transition text-sm">
+                Hantar Luahan Rahsia
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & CHART.JS -->
+    <script>
+        // Mobile Navigation Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+
+        // Booking Form Handling
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            const successToast = document.getElementById('booking-success');
+            const form = document.getElementById('booking-form');
+            successToast.classList.remove('hidden');
+            form.reset();
+            setTimeout(() => { successToast.classList.add('hidden'); }, 6000);
+        }
+
+        // Anonymous Modal Controls
+        function openAnonModal() { document.getElementById('anon-modal').classList.remove('hidden'); }
+        function closeAnonModal() { document.getElementById('anon-modal').classList.add('hidden'); }
+        function sendAnonMessage() {
+            const anonText = document.getElementById('anon-text').value;
+            if (!anonText.trim()) { alert("Sila tulis luahan anda terlebih dahulu."); return; }
+            alert("Luahan rahsia anda telah berjaya dihantar kepada Cikgu Kaunseling secara selamat!");
+            document.getElementById('anon-text').value = '';
+            closeAnonModal();
+        }
+
+        // --- CHART 1: PSIKOMETRIK CHART ---
+        const ctxPsiko = document.getElementById('psikometrikChart').getContext('2d');
+        new Chart(ctxPsiko, {
+            type: 'bar',
+            data: {
+                labels: ['Verbal-Linguistik', 'Logik-Matematik', 'Visual-Ruang', 'Kinestetik', 'Muzik', 'Interpersonal', 'Intrapersonal'],
+                datasets: [{
+                    label: 'Peratus Kecenderungan Murid (%)',
+                    data: [85, 72, 90, 88, 65, 94, 78],
+                    backgroundColor: '#38bdf8',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, max: 100 } }
+            }
+        });
+
+        // --- CHART 2: MINDA SIHAT CHART (WITH DYNAMIC FILTER) ---
+        const ctxMinda = document.getElementById('mindaSihatChart').getContext('2d');
+        let mindaChart;
+
+        const dataJantina = {
+            labels: ['Lelaki', 'Perempuan'],
+            datasets: [
+                { label: 'Sejahtera (Ceria)', data: [140, 165], backgroundColor: '#22c55e', borderRadius: 6 },
+                { label: 'Perlukan Bimbingan', data: [25, 18], backgroundColor: '#fb923c', borderRadius: 6 }
+            ]
+        };
+
+        const dataKelas = {
+            labels: ['Tahun 1', 'Tahun 2', 'Tahun 3', 'Tahun 4', 'Tahun 5', 'Tahun 6'],
+            datasets: [
+                { label: 'Sejahtera (Ceria)', data: [50, 52, 48, 55, 49, 51], backgroundColor: '#22c55e', borderRadius: 6 },
+                { label: 'Perlukan Bimbingan', data: [5, 4, 6, 8, 10, 10], backgroundColor: '#fb923c', borderRadius: 6 }
+            ]
+        };
+
+        function renderMindaChart(dataConfig) {
+            if (mindaChart) mindaChart.destroy();
+            mindaChart = new Chart(ctxMinda, {
+                type: 'bar',
+                data: dataConfig,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        function updateMindaChart() {
+            const filterVal = document.getElementById('chart-filter').value;
+            if (filterVal === 'jantina') {
+                renderMindaChart(dataJantina);
+            } else {
+                renderMindaChart(dataKelas);
+            }
+        }
+
+        // Initial Load of Minda Sihat Chart
+        renderMindaChart(dataJantina);
+    </script>
+</body>
+</html>
