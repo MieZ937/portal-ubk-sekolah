@@ -52,82 +52,98 @@
 </head>
 <body class="bg-amber-50/30 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
 
+    <!-- ADMIN PERSISTENCE TOOLBAR (ONLY VISIBLE WHEN LOGGED IN AS ADMIN) -->
+    <div id="admin-toolbar" class="admin-only hidden sticky top-0 z-50 bg-slate-900 text-amber-300 px-4 py-2 text-xs border-b-2 border-amber-400 flex flex-wrap justify-between items-center gap-2">
+        <div class="flex items-center gap-2">
+            <span class="font-bold uppercase tracking-wider">🔒 Admin Dashboard Mode: Active</span>
+            <span class="text-slate-400">|</span>
+            <span>Kod Keselamatan: <strong>2002</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="saveAllChangesToStorage()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold px-3 py-1 rounded-lg transition flex items-center gap-1">
+                💾 SIMPAN PERUBAHAN (SAVE DATA)
+            </button>
+            <button onclick="resetDataToDefault()" class="bg-rose-600 hover:bg-rose-700 text-white font-heading font-bold px-3 py-1 rounded-lg transition flex items-center gap-1">
+                🔄 UNDO / RESET ASAL
+            </button>
+        </div>
+    </div>
+
     <!-- NAVIGATION BAR -->
     <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-2 border-emerald-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-ubk-500 to-teal-400 flex items-center justify-center text-white text-2xl shadow-md shadow-emerald-500/20">
-                        🏫
+                    <!-- Updated with official SK Kebagu Crest Logo -->
+                    <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-md p-1 border border-emerald-200">
+                        <img id="school-logo-img" src="LOGO SKK REDRAW.PNG" alt="Logo SK Kebagu" class="max-h-full max-w-full object-contain" onerror="this.src='https://placehold.co/100x100/16a34a/ffffff?text=SKK'">
                     </div>
                     <div>
                         <span class="font-heading font-bold text-xl text-slate-900 block leading-tight" id="school-title-display">Portal e-UBK SK Kebagu</span>
-                        <span class="text-xs text-ubk-600 font-semibold">Unit Bimbingan & Kaunseling Mesra Murid</span>
+                        <span class="text-xs text-ubk-600 font-semibold" id="school-subtitle-display">Unit Bimbingan & Kaunseling</span>
                     </div>
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden lg:flex items-center space-x-4 text-sm">
+                <div class="hidden lg:flex items-center space-x-3 text-sm">
                     <a href="#utama" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Utama</a>
                     <a href="#profil" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Profil GBK</a>
-                    <a href="#statistik" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Statistik Sesi</a>
+                    <a href="#statistik" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Statistik</a>
+                    <a href="#opr-reports" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Laporan OPR 📑</a>
                     <a href="#galeri" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Galeri</a>
                     <a href="#fokus" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">4 Fokus</a>
                     <a href="#psikometrik" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Psikometrik</a>
                     <a href="#minda-sihat" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Minda Sihat 🧠</a>
                     
-                    <a href="#temujanji" class="bg-gradient-to-r from-ubk-500 to-teal-600 hover:from-ubk-600 hover:to-teal-700 text-white font-heading font-bold px-4 py-2 rounded-full transition shadow-md flex items-center gap-1.5">
+                    <!-- BACKGROUND MUSIC WIDGET -->
+                    <div class="flex items-center bg-emerald-100/70 border border-emerald-300 rounded-full px-2.5 py-1 text-xs">
+                        <button id="music-play-btn" onclick="toggleBackgroundMusic()" class="text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1">
+                            <i id="music-icon" class="fa-solid fa-compact-disc text-emerald-600 animate-spin"></i>
+                            <span id="music-status-text">🎵 Muzik</span>
+                        </button>
+                        <audio id="bg-audio" loop preload="auto">
+                            <source id="bg-audio-source" src="https://assets.mixkit.co/music/preview/mixkit-happy-kids-learning-1111.mp3" type="audio/mpeg">
+                        </audio>
+                    </div>
+
+                    <a href="#temujanji" class="bg-gradient-to-r from-ubk-500 to-teal-600 hover:from-ubk-600 hover:to-teal-700 text-white font-heading font-bold px-3.5 py-2 rounded-full transition shadow-md flex items-center gap-1.5 text-xs">
                         💬 E-Kaunseling
                     </a>
 
-                    <!-- ADMIN ACCESS BUTTON -->
-                    <button onclick="promptAdminLogin()" class="bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold px-3.5 py-2 rounded-full transition shadow-md text-xs flex items-center gap-1.5 border border-amber-400/30">
-                        🔒 Admin Portal
-                    </button>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="lg:hidden flex items-center gap-2">
-                    <button onclick="promptAdminLogin()" class="bg-slate-800 text-amber-300 font-heading font-bold px-3 py-1.5 rounded-xl text-xs">
-                        🔒 Admin
-                    </button>
-                    <button id="mobile-menu-btn" class="text-slate-700 hover:text-slate-900 focus:outline-none p-2 text-2xl">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
+                    <!-- ADMIN ACCESS BUTTON & SAVE/UNDO TOOLBAR -->
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="promptAdminLogin()" class="bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold px-3 py-2 rounded-full transition shadow-md text-xs flex items-center gap-1 border border-amber-400/30">
+                            🔒 Admin
+                        </button>
+                        <button onclick="savePortalState()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold px-3 py-2 rounded-full transition text-xs shadow-md" title="Simpan Perubahan ke Storan">
+                            💾 Simpan
+                        </button>
+                        <button onclick="openThemeCustomizerModal()" class="admin-only hidden bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold px-3 py-2 rounded-full transition text-xs shadow-md" title="Ubah Tema & Warna Portal">
+                            🎨 Warna
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b-2 border-emerald-200 px-4 pt-2 pb-4 space-y-2 font-heading text-sm">
-            <a href="#utama" class="block py-2 text-slate-700 font-semibold">Utama</a>
-            <a href="#profil" class="block py-2 text-slate-700 font-semibold">Profil GBK</a>
-            <a href="#statistik" class="block py-2 text-slate-700 font-semibold">Statistik Sesi Selesai</a>
-            <a href="#galeri" class="block py-2 text-slate-700 font-semibold">Galeri Aktiviti UBK</a>
-            <a href="#fokus" class="block py-2 text-slate-700 font-semibold">4 Fokus Utama</a>
-            <a href="#psikometrik" class="block py-2 text-slate-700 font-semibold">Ujian Psikometrik</a>
-            <a href="#minda-sihat" class="block py-2 text-slate-700 font-semibold">Sudut Minda Sihat 🧠</a>
-            <a href="#temujanji" class="block w-full text-center bg-ubk-500 text-white font-bold py-2.5 rounded-full mt-2">💬 E-Kaunseling</a>
-        </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <section id="utama" class="relative bg-gradient-to-b from-emerald-100/50 via-white to-amber-50/40 pt-8 pb-16 overflow-hidden bg-kids-pattern">
+    <!-- HERO & BANNER UBK (RESTORED FULL HERO SECTION) -->
+    <section id="utama" class="relative py-12 md:py-16 bg-kids-pattern border-b border-emerald-100 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-12 gap-8 items-center">
-                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 text-ubk-800 text-xs font-bold uppercase tracking-wider border border-emerald-300">
-                        🏫 SK Kebagu SEJAHTERA & Ceria!
-                    </div>
-                    <h1 class="font-heading font-extrabold text-4xl sm:text-5xl text-slate-900 leading-tight">
-                        Selamat Datang ke <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-ubk-600 to-teal-600">Portal e-UBK SK Kebagu</span>
+                <!-- Left Content Area -->
+                <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider shadow-sm">
+                        🏫 SK KEBAGU SEJAHTERA & CERIA!
+                    </span>
+                    <h1 class="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl text-slate-900 leading-tight">
+                        Selamat Datang ke <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-ubk-600 to-teal-600">Portal e-UBK SK Kebagu</span>
                     </h1>
-                    <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
-                        Pusat Henti Setempat (One-Stop Centre) Perkhidmatan Bimbingan, Kaunseling, Psikometrik, dan Kesejahteraan Minda Sihat Murid SK Kebagu. 🎈
+                    <p class="text-slate-600 text-base sm:text-lg max-w-2xl leading-relaxed">
+                        Pusat Henti Setempat (One-Stop Centre) Perkhidmatan Bimbingan, Kaunseling, Psikometrik, dan Kesejahteraan Minda Sihat Murid SK Kebagu. 📍
                     </p>
-
-                    <!-- Quick Action Buttons -->
-                    <div class="flex flex-wrap justify-center lg:justify-start gap-3 pt-2">
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
                         <a href="#minda-sihat" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-heading font-bold px-5 py-3 rounded-2xl transition shadow-md flex items-center gap-2 text-sm">
                             🧠 Ujian Minda Sihat
                         </a>
@@ -140,35 +156,30 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-5 relative">
-                    <div class="bg-white p-6 rounded-3xl shadow-xl border-4 border-emerald-100 space-y-4 text-center relative">
-                        <div class="w-16 h-16 bg-yellow-100 text-3xl rounded-2xl mx-auto flex items-center justify-center">
-                            📢
-                        </div>
-                        <h3 class="font-heading font-bold text-xl text-slate-900">Sudut Info UBK SK Kebagu</h3>
-                        
-                        <div id="bulletin-display-box" class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-left space-y-1">
-                            <span id="bulletin-tag-display" class="text-[11px] font-bold text-ubk-700 bg-ubk-200 px-2.5 py-0.5 rounded-full">KEMPEN MINDA SIHAT</span>
-                            <h4 id="bulletin-title-display" class="font-heading font-bold text-sm text-slate-800">Senyum & Kawal Emosi!</h4>
-                            <p id="bulletin-desc-display" class="text-xs text-slate-600">Jom ambil Ujian Minda Sihat kendiri di bahagian bawah untuk mengetahui tahap keceriaan anda! 🤝</p>
-                            <div id="bulletin-file-link" class="pt-2 hidden">
-                                <a id="bulletin-download-btn" href="#" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 hover:underline">
-                                    <i class="fa-solid fa-file-arrow-down"></i> <span id="bulletin-file-name">Muat Turun Fail Info</span>
-                                </a>
+                <!-- Right Card Area: Sudut Info UBK SK Kebagu -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white/90 backdrop-blur-sm border-2 border-emerald-200 rounded-3xl p-6 shadow-xl relative">
+                        <div class="text-center space-y-3 mb-4">
+                            <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl mx-auto shadow-inner">
+                                📣
                             </div>
+                            <h3 class="font-heading font-bold text-2xl text-slate-900">Sudut Info UBK SK Kebagu</h3>
                         </div>
 
-                        <!-- Admin Edit Info Button -->
-                        <button onclick="openInfoEditorModal()" class="admin-only hidden bg-amber-500 hover:bg-amber-600 text-slate-900 font-heading font-bold px-4 py-2 rounded-xl text-xs transition w-full">
-                            ✏️ Edit Info Bulletin / Upload Fail Info
-                        </button>
+                        <div id="bulletin-board" class="space-y-3">
+                            <div class="p-4 bg-emerald-50/80 rounded-2xl border border-emerald-200 space-y-1">
+                                <span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase">KEMPEN MINDA SIHAT</span>
+                                <h4 class="font-heading font-bold text-slate-900 text-sm mt-1">Senyum & Kawal Emosi!</h4>
+                                <p class="text-xs text-slate-600">Jom ambil Ujian Minda Sihat kendiri di bahagian bawah untuk mengetahui tahap keceriaan anda! 🖐️</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- PROFIL GURU BIMBINGAN DAN KAUNSELING (TUNGGAL) -->
+    <!-- PROFIL GURU BIMBINGAN DAN KAUNSELING -->
     <section id="profil" class="py-14 bg-white border-y border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-10">
@@ -203,7 +214,7 @@
     <section id="statistik" class="py-12 bg-gradient-to-r from-teal-600 to-emerald-700 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-8">
-                <span class="bg-white/20 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Pencapaian Perkhidmatan</span>
+                <span class="bg-white/20 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Pencapaian Perkhidmatan (<span class="active-year-text">2026</span>)</span>
                 <h3 class="font-heading font-bold text-3xl mt-2">Jumlah Sesi Kaunseling Dilaksanakan</h3>
                 <p class="text-emerald-100 text-sm">Rekod rasmi sesi bimbingan dan kaunseling yang telah diselesaikan di SK Kebagu.</p>
             </div>
@@ -218,7 +229,7 @@
                     <div class="text-5xl font-heading font-extrabold text-amber-300 py-1" id="count-individu-display">48</div>
                     <p class="text-xs text-emerald-100">Sesi Bersemuka & Atas Talian</p>
 
-                    <!-- Admin Edit Controls for Sesi Individu -->
+                    <!-- Admin Edit Controls -->
                     <div class="admin-only hidden pt-3 border-t border-white/20 space-y-2">
                         <div class="flex items-center justify-center gap-2">
                             <button onclick="updateSessionCount('individu', -1)" class="bg-rose-500 hover:bg-rose-600 text-white font-bold w-8 h-8 rounded-lg text-lg">-</button>
@@ -237,7 +248,7 @@
                     <div class="text-5xl font-heading font-extrabold text-sky-300 py-1" id="count-kelompok-display">26</div>
                     <p class="text-xs text-emerald-100">Bimbingan Kumpulan & Bimbingan Rakan Sebaya</p>
 
-                    <!-- Admin Edit Controls for Sesi Kelompok -->
+                    <!-- Admin Edit Controls -->
                     <div class="admin-only hidden pt-3 border-t border-white/20 space-y-2">
                         <div class="flex items-center justify-center gap-2">
                             <button onclick="updateSessionCount('kelompok', -1)" class="bg-rose-500 hover:bg-rose-600 text-white font-bold w-8 h-8 rounded-lg text-lg">-</button>
@@ -250,28 +261,59 @@
         </div>
     </section>
 
-    <!-- GALERI AKTIVITI & PROGRAM UBK -->
+    <!-- SEKSYEN "STUDENT VOICE" (PETI ADUAN DIGITAL MURID) -->
+    <section id="student-voice" class="py-14 bg-amber-50/40 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-br from-amber-400 via-orange-400 to-rose-400 rounded-3xl p-6 sm:p-10 text-slate-900 shadow-xl relative overflow-hidden">
+                <div class="grid lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-8 space-y-3 text-center lg:text-left">
+                        <span class="bg-white text-slate-900 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
+                            🗣️ Peti Suara Murid / Aduan Mesra
+                        </span>
+                        <h3 class="font-heading font-bold text-3xl sm:text-4xl text-slate-900">Student Voice SK Kebagu</h3>
+                        <p class="text-sm text-slate-900/90 max-w-xl font-medium">
+                            Ada masalah kawan, isu buli, rasa sedih, atau ada cadangan menarik untuk sekolah? Meluahlah secara selamat di sini. Privasi anda 100% terjaga!
+                        </p>
+                    </div>
+                    <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center">
+                        <button onclick="openAnonModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-heading font-bold px-6 py-3.5 rounded-2xl transition shadow-lg text-sm flex items-center justify-center gap-2">
+                            🤫 Hantar Aduan / Luahan Rahsia
+                        </button>
+                        
+                        <!-- Admin View Complaints Modal Launcher -->
+                        <button onclick="openAdminComplaintsViewer()" class="admin-only hidden bg-white hover:bg-slate-100 text-slate-900 font-heading font-bold px-4 py-2.5 rounded-2xl transition text-xs flex items-center justify-center gap-2 border-2 border-slate-900">
+                            📥 Lihat Peti Aduan Murid (<span id="complaint-count-badge">2</span>)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERI AKTIVITI & PROGRAM UBK (MULTI-GAMBAR ENABLED) -->
     <section id="galeri" class="py-14 bg-emerald-50/30 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10">
                 <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">Album UBK SK Kebagu</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">
+                        Album Aktiviti (<span class="active-year-text">2026</span>)
+                    </span>
                     <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Galeri Aktiviti & Program</h3>
                     <p class="text-slate-600 text-sm mt-1">Imbauan kenangan program Bimbingan, Sahsiah, dan Minda Sihat sekolah.</p>
                 </div>
                 
                 <!-- Admin Add Photo Button -->
                 <button onclick="openGalleryUploadModal()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold px-4 py-2.5 rounded-2xl text-xs transition shadow-md mt-4 md:mt-0 flex items-center gap-2">
-                    📸 + Muat Naik Program Baharu
+                    📸 + Muat Naik Program Baharu (Multi-Gambar)
                 </button>
             </div>
 
             <!-- Dynamic Gallery Grid -->
             <div id="gallery-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Gallery Item 1 -->
+                <!-- Program 1 -->
                 <div class="gallery-card bg-white rounded-3xl overflow-hidden border-2 border-slate-200 shadow-sm hover:shadow-md transition relative">
                     <button onclick="removeGalleryCard(this)" class="admin-only hidden absolute top-3 right-3 bg-rose-600 text-white rounded-full w-8 h-8 font-bold text-xs shadow-md z-10 hover:bg-rose-700" title="Buang Elemen">🗑️</button>
-                    <div class="h-48 overflow-hidden">
+                    <div class="h-48 overflow-hidden relative">
                         <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&auto=format&fit=crop&q=80" alt="Kempen Minda Sihat" class="w-full h-full object-cover">
                     </div>
                     <div class="p-4">
@@ -281,10 +323,10 @@
                     </div>
                 </div>
 
-                <!-- Gallery Item 2 -->
+                <!-- Program 2 -->
                 <div class="gallery-card bg-white rounded-3xl overflow-hidden border-2 border-slate-200 shadow-sm hover:shadow-md transition relative">
                     <button onclick="removeGalleryCard(this)" class="admin-only hidden absolute top-3 right-3 bg-rose-600 text-white rounded-full w-8 h-8 font-bold text-xs shadow-md z-10 hover:bg-rose-700" title="Buang Elemen">🗑️</button>
-                    <div class="h-48 overflow-hidden">
+                    <div class="h-48 overflow-hidden relative">
                         <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&auto=format&fit=crop&q=80" alt="Watikah PRS" class="w-full h-full object-cover">
                     </div>
                     <div class="p-4">
@@ -293,72 +335,46 @@
                         <p class="text-xs text-slate-500 mt-1">Penyerahan sijil dan lencana Pembimbing Rakan Sebaya sekolah.</p>
                     </div>
                 </div>
-
-                <!-- Gallery Item 3 -->
-                <div class="gallery-card bg-white rounded-3xl overflow-hidden border-2 border-slate-200 shadow-sm hover:shadow-md transition relative">
-                    <button onclick="removeGalleryCard(this)" class="admin-only hidden absolute top-3 right-3 bg-rose-600 text-white rounded-full w-8 h-8 font-bold text-xs shadow-md z-10 hover:bg-rose-700" title="Buang Elemen">🗑️</button>
-                    <div class="h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80" alt="Ceramah Kerjaya" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-4">
-                        <span class="text-[10px] font-bold bg-purple-100 text-purple-800 px-2 py-0.5 rounded-md">KERJAYA</span>
-                        <h4 class="font-heading font-bold text-slate-900 text-base mt-1">Eksplorasi Minat & Cita-Cita</h4>
-                        <p class="text-xs text-slate-500 mt-1">Bengkel motivasi penerokaan kerjaya murid Tahun 6 SK Kebagu.</p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- 4 FOKUS UTAMA UBK SEKOLAH RENDAH -->
-    <section id="fokus" class="py-14 bg-amber-50/40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-10">
-                <div class="text-center md:text-left">
-                    <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">Perkhidmatan Utama</span>
-                    <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">4 Fokus Bimbingan UBK SK Kebagu</h3>
+    <!-- MODUL ONE PAGE REPORT (OPR) PROGRAM -->
+    <section id="opr" class="py-14 bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-purple-700 bg-purple-100 px-3 py-1 rounded-full">
+                        Pelaporan Laporan Ringkas (OPR)
+                    </span>
+                    <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">One Page Report (OPR) UBK</h3>
+                    <p class="text-slate-600 text-sm mt-1">Paparan dokumen laporan perkhidmatan & aktiviti lengkap berserta penilaian.</p>
                 </div>
 
-                <!-- Admin Add Focus Item Button -->
-                <button onclick="openAddFocusModal()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold px-4 py-2 rounded-2xl text-xs transition shadow-md mt-4 md:mt-0">
-                    ➕ Tambah Elemen Fokus UBK
+                <!-- Admin Upload OPR File -->
+                <button onclick="openOprUploadModal()" class="admin-only hidden bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold px-4 py-2.5 rounded-2xl text-xs transition shadow-md flex items-center gap-2">
+                    📄 + Muat Naik OPR Laporan Baharu
                 </button>
             </div>
 
-            <div id="fokus-container" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="fokus-card bg-white p-6 rounded-3xl border-2 border-emerald-100 shadow-sm text-center relative">
-                    <button onclick="removeElementCard(this)" class="admin-only hidden absolute top-3 right-3 text-rose-500 hover:text-rose-700 font-bold text-xs" title="Buang Elemen">🗑️</button>
-                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-2xl flex items-center justify-center mx-auto mb-3">🌱</div>
-                    <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">1. Sahsiah & Disiplin</h4>
-                    <p class="text-xs text-slate-600 leading-relaxed">Pembentukan watak terpuji, adab sopan, dan amalan baik SSDM.</p>
-                </div>
-
-                <div class="fokus-card bg-white p-6 rounded-3xl border-2 border-sky-100 shadow-sm text-center relative">
-                    <button onclick="removeElementCard(this)" class="admin-only hidden absolute top-3 right-3 text-rose-500 hover:text-rose-700 font-bold text-xs" title="Buang Elemen">🗑️</button>
-                    <div class="w-14 h-14 rounded-2xl bg-sky-100 text-2xl flex items-center justify-center mx-auto mb-3">🚀</div>
-                    <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">2. Disiplin & Kerohanian</h4>
-                    <p class="text-xs text-slate-600 leading-relaxed">Kempen kehadiran 100%, pembinaan jati diri, dan ketahanan mental.</p>
-                </div>
-
-                <div class="fokus-card bg-white p-6 rounded-3xl border-2 border-purple-100 shadow-sm text-center relative">
-                    <button onclick="removeElementCard(this)" class="admin-only hidden absolute top-3 right-3 text-rose-500 hover:text-rose-700 font-bold text-xs" title="Buang Elemen">🗑️</button>
-                    <div class="w-14 h-14 rounded-2xl bg-purple-100 text-2xl flex items-center justify-center mx-auto mb-3">🎓</div>
-                    <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">3. Kerjaya & Akademik</h4>
-                    <p class="text-xs text-slate-600 leading-relaxed">Penerokaan cita-cita, minat akademik, & persediaan ke sekolah menengah.</p>
-                </div>
-
-                <div class="fokus-card bg-white p-6 rounded-3xl border-2 border-amber-100 shadow-sm text-center relative">
-                    <button onclick="removeElementCard(this)" class="admin-only hidden absolute top-3 right-3 text-rose-500 hover:text-rose-700 font-bold text-xs" title="Buang Elemen">🗑️</button>
-                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-2xl flex items-center justify-center mx-auto mb-3">❤️</div>
-                    <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">4. Kesejahteraan Mental</h4>
-                    <p class="text-xs text-slate-600 leading-relaxed">Pengurusan emosi, keceriaan minda, & intervensi psikososial murid.</p>
+            <!-- OPR Grid Container -->
+            <div id="opr-container" class="grid md:grid-cols-3 gap-6">
+                <!-- Sample OPR Card 1 -->
+                <div class="opr-card bg-slate-50 border-2 border-purple-100 rounded-3xl p-5 space-y-3 relative">
+                    <button onclick="removeOprCard(this)" class="admin-only hidden absolute top-3 right-3 text-rose-500 font-bold text-xs" title="Padam OPR">🗑️</button>
+                    <span class="text-[10px] font-bold bg-purple-200 text-purple-800 px-2.5 py-0.5 rounded-full">OPR 2026</span>
+                    <h4 class="font-heading font-bold text-slate-900 text-base">OPR Kempen Kehadiran 100%</h4>
+                    <p class="text-xs text-slate-600">Laporan pelaksanaan kempen kehadiran murid penuh bulan Januari 2026.</p>
+                    <a href="#" onclick="alert('Fail OPR sedia dimuat turun. Admin boleh menukar fail melalui butang upload.')" class="inline-flex items-center gap-1.5 text-xs font-bold text-purple-700 hover:underline">
+                        <i class="fa-solid fa-file-pdf"></i> Lihat / Muat Turun Fail OPR
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- BAHAGIAN INVENTORI & PSIKOMETRIK -->
-    <section id="psikometrik" class="py-14 bg-white border-t border-slate-200">
+    <section id="psikometrik" class="py-14 bg-slate-50 border-t border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-10">
                 <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold uppercase tracking-wider">Pentaksiran Psikometrik (PPSI)</span>
@@ -378,9 +394,8 @@
                         <a id="psiko-t4-link" href="#" target="_blank" onclick="handleQuizOrFileClick('T4', event)" class="block w-full text-center bg-sky-600 hover:bg-sky-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
                             📝 Jawab Ujian / Muat Turun Fail T4
                         </a>
-                        <!-- Admin Update File for T4 -->
                         <button onclick="openSectionFileUploadModal('psikometrik_t4')" class="admin-only hidden w-full bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold py-1.5 rounded-lg text-xs">
-                            📂 Upload Fail / Soalan Baharu (Word/PDF/Excel)
+                            📂 Upload Fail / Soalan Baharu
                         </button>
                     </div>
                 </div>
@@ -395,9 +410,8 @@
                         <a id="psiko-t5-link" href="#" target="_blank" onclick="handleQuizOrFileClick('T5', event)" class="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
                             📝 Jawab Ujian / Muat Turun Fail T5
                         </a>
-                        <!-- Admin Update File for T5 -->
                         <button onclick="openSectionFileUploadModal('psikometrik_t5')" class="admin-only hidden w-full bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold py-1.5 rounded-lg text-xs">
-                            📂 Upload Fail / Soalan Baharu (Word/PDF/Excel)
+                            📂 Upload Fail / Soalan Baharu
                         </button>
                     </div>
                 </div>
@@ -412,23 +426,22 @@
                         <a id="psiko-t6-link" href="#" target="_blank" onclick="handleQuizOrFileClick('T6', event)" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
                             📝 Jawab Ujian / Muat Turun Fail T6
                         </a>
-                        <!-- Admin Update File for T6 -->
                         <button onclick="openSectionFileUploadModal('psikometrik_t6')" class="admin-only hidden w-full bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold py-1.5 rounded-lg text-xs">
-                            📂 Upload Fail / Soalan Baharu (Word/PDF/Excel)
+                            📂 Upload Fail / Soalan Baharu
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- ANALISIS DATA PSIKOMETRIK -->
-            <div class="bg-slate-50 border-2 border-slate-200 rounded-3xl p-6 sm:p-8">
+            <div class="bg-white border-2 border-slate-200 rounded-3xl p-6 sm:p-8">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                     <div>
                         <h4 class="font-heading font-bold text-xl text-slate-900">📊 Analisis Data Psikometrik SK Kebagu</h4>
                         <p class="text-xs text-slate-500">Ringkasan Kecenderungan Kecerdasan Pelbagai Murid Tahap 2</p>
                     </div>
                     <button onclick="openSectionFileUploadModal('psikometrik_chart_data')" class="admin-only hidden bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold px-3 py-2 rounded-xl text-xs">
-                        📂 Upload Fail Data Analisis Baharu (Excel/PDF)
+                        📂 Upload Fail Data Analisis Baharu
                     </button>
                 </div>
                 <div class="h-64 relative">
@@ -471,10 +484,8 @@
                     <a id="minda-sihat-quiz-link" href="#" onclick="handleQuizOrFileClick('MindaSihat', event)" class="block w-full text-center bg-amber-500 hover:bg-amber-600 text-slate-900 font-heading font-bold py-3 rounded-2xl text-sm transition shadow-md">
                         🌈 Mulakan Ujian Minda Sihat / Muat Turun Fail
                     </a>
-
-                    <!-- Admin Upload File for Minda Sihat -->
                     <button onclick="openSectionFileUploadModal('minda_sihat')" class="admin-only hidden w-full bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold py-2 rounded-xl text-xs">
-                        📂 Upload Fail Soalan Minda Sihat (Word/PDF/Excel)
+                        📂 Upload Fail Soalan Minda Sihat
                     </button>
                 </div>
 
@@ -496,7 +507,7 @@
                     </div>
 
                     <button onclick="openSectionFileUploadModal('minda_sihat_chart_data')" class="admin-only hidden bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold px-3 py-1.5 rounded-xl text-xs w-full">
-                        📂 Upload Fail Laporan Analisis Minda Sihat (PDF/Excel)
+                        📂 Upload Fail Laporan Analisis Minda Sihat
                     </button>
                 </div>
             </div>
@@ -552,7 +563,6 @@
                     </button>
                 </form>
 
-                <!-- Feedback Toast -->
                 <div id="booking-success" class="hidden mt-4 p-4 rounded-2xl bg-emerald-100 text-emerald-800 text-sm font-bold flex items-center gap-2">
                     <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
                     Permohonan temu janji berjaya dihantar! Guru Bimbingan dan Kaunseling SK Kebagu akan menghubungi anda. 😊
@@ -561,24 +571,36 @@
         </div>
     </section>
 
-    <!-- KOTAK LUAHAN ANONYMOUS -->
-    <section class="py-12 bg-white border-t border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-gradient-to-r from-teal-500 to-emerald-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-                <div class="space-y-2 text-center md:text-left">
-                    <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">🔒 Rahsia Tanpa Nama</span>
-                    <h3 class="font-heading font-bold text-2xl">Kotak Luahan Digital Rahsia</h3>
-                    <p class="text-xs text-emerald-100 max-w-md">Ada aduan atau masalah tapi takut nak beritahu nama? Tulis secara rahsia di sini.</p>
+    <!-- PUSAT SIMPANAN DATA AUDITAN & PEMANTAUAN (AUDIT & INSPECTION VAULT) -->
+    <section id="admin-audit-vault" class="admin-only hidden py-14 bg-slate-950 text-slate-100 border-t-4 border-amber-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold uppercase tracking-wider">
+                    📁 SIMPANAN DATA AUDITAN & PEMANTAUAN PPD/JPN
                 </div>
-                <button onclick="openAnonModal()" class="bg-white text-slate-900 font-heading font-bold px-6 py-3 rounded-2xl hover:bg-emerald-50 transition shadow-md flex items-center gap-2 whitespace-nowrap">
-                    🤫 Tulis Luahan Rahsia
-                </button>
+                <h3 class="font-heading font-bold text-2xl text-white mt-1">Audit Vault UBK SK Kebagu</h3>
+                <p class="text-slate-400 text-xs">Pusat sehenti penyemakan dokumen rasmi, OPR, statistik sesi, dan senarai fail terlampir untuk tujuan semakan pemantauan.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4 text-xs">
+                <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+                    <h5 class="font-bold text-amber-300 mb-1">📑 Jumlah Rekod OPR Tersimpan</h5>
+                    <p id="vault-opr-count" class="text-2xl font-heading font-bold text-white">1 Fail</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+                    <h5 class="font-bold text-emerald-300 mb-1">👥 Sesi Kaunseling Terkumpul</h5>
+                    <p id="vault-session-count" class="text-2xl font-heading font-bold text-white">74 Sesi (2026)</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+                    <h5 class="font-bold text-sky-300 mb-1">🔒 Pusat Data Murid Excel</h5>
+                    <p id="vault-student-count" class="text-2xl font-heading font-bold text-white">3 Rekod</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- PUSAT DATA MURID SEKOLAH (ADMIN ONLY PRIVATE DATA CENTER) -->
-    <section id="admin-data-center" class="admin-only hidden py-14 bg-slate-900 text-slate-100 border-t-4 border-amber-400">
+    <section id="admin-data-center" class="admin-only hidden py-14 bg-slate-900 text-slate-100 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-4">
                 <div>
@@ -683,597 +705,489 @@
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100">
             <div class="flex justify-between items-center mb-4 border-b pb-3">
                 <h4 class="font-heading font-bold text-slate-900 flex items-center gap-2 text-lg">
-                    🤫 Kotak Luahan Rahsia
+                    🤫 Kotak Luahan Rahsia / Student Voice
                 </h4>
                 <button onclick="closeAnonModal()" class="text-slate-400 hover:text-slate-600">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
-            <p class="text-xs text-slate-500 mb-3">Ceritakan masalah anda. Nama anda TIDAK akan direkodkan sama sekali.</p>
-            <textarea id="anon-text" rows="4" placeholder="Tulis luahan anda di sini..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ubk-500 focus:outline-none mb-4"></textarea>
+            
+            <div class="space-y-3 text-xs mb-4">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Kategori Masalah / Aduan</label>
+                    <select id="anon-category-select" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold">
+                        <option value="Buli / Kawan">Masalah Kawan / Buli</option>
+                        <option value="Akademik / Belajar">Susah Belajar / Stress Pelajaran</option>
+                        <option value="Emosi / Sedih">Emosi / Rasa Sedih</option>
+                        <option value="Cadangan Sekolah">Cadangan Untuk Sekolah</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Mesej Luahan (Nama Rahsia)</label>
+                    <textarea id="anon-text" rows="4" placeholder="Tulis luahan anda di sini..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ubk-500 focus:outline-none"></textarea>
+                </div>
+            </div>
+
             <button onclick="sendAnonMessage()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl transition text-sm">
                 Hantar Luahan Rahsia
             </button>
         </div>
     </div>
 
-    <!-- MODAL: ADD ELEMEN FOKUS UBK -->
-    <div id="add-focus-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100">
-            <div class="flex justify-between items-center mb-4 border-b pb-3">
-                <h4 class="font-heading font-bold text-slate-900 text-lg">➕ Tambah Elemen Fokus UBK Baharu</h4>
-                <button onclick="closeAddFocusModal()" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
+    <!-- SECTION: MODUL ONE PAGE REPORT (OPR) BERKATEGORI & BERSEJARAH -->
+    <section id="opr-reports" class="py-14 bg-slate-50 border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">Dokumentasi Rasmi UBK</span>
+                    <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Pusat Laporan One Page Report (OPR)</h3>
+                    <p class="text-slate-600 text-sm mt-1">Koleksi Laporan Ringkas 1 Muka Surat mengikut Kategori & Rekod Sejarah Aktiviti.</p>
+                </div>
+                
+                <div class="flex flex-wrap items-center gap-2 mt-4 md:mt-0">
+                    <select id="opr-year-filter" onchange="filterOprReports()" class="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold shadow-sm">
+                        <option value="ALL">Semua Tahun</option>
+                        <option value="2026" selected>Tahun 2026</option>
+                        <option value="2025">Tahun 2025</option>
+                        <option value="2024">Tahun 2024</option>
+                    </select>
+
+                    <select id="opr-category-filter" onchange="filterOprReports()" class="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold shadow-sm">
+                        <option value="ALL">Semua Kategori</option>
+                        <option value="Program Terkini">Program Terkini</option>
+                        <option value="Sahsiah">Sahsiah & Disiplin</option>
+                        <option value="Kerjaya">Kerjaya & Akademik</option>
+                        <option value="Minda Sihat">Minda Sihat</option>
+                    </select>
+
+                    <button onclick="openOprUploadModal()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold px-3.5 py-2 rounded-xl text-xs shadow-md">
+                        📑 + Upload Fail OPR Baharu
+                    </button>
+                </div>
             </div>
-            <form onsubmit="handleAddFocus(event)" class="space-y-3 text-xs">
+
+            <!-- OPR Grid Container -->
+            <div id="opr-grid-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="opr-card bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-sm space-y-3 relative" data-year="2026" data-category="Minda Sihat">
+                    <button onclick="removeOprCard(this)" class="admin-only hidden absolute top-3 right-3 text-rose-500 font-bold text-xs" title="Padam OPR">🗑️</button>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="bg-amber-100 text-amber-800 font-bold px-2.5 py-0.5 rounded-md">MINDA SIHAT</span>
+                        <span class="font-bold text-slate-400">📅 2026</span>
+                    </div>
+                    <h4 class="font-heading font-bold text-slate-900 text-base">OPR Kempen Pelancaran Minda Sihat</h4>
+                    <p class="text-xs text-slate-500">Laporan Aktiviti Senam Seni & Ekspresi Emosi Murid SK Kebagu.</p>
+                    <a href="https://placehold.co/600x800/16a34a/ffffff?text=OPR+MINDA+SIHAT" target="_blank" class="block w-full text-center bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-700 font-heading font-bold py-2 rounded-xl text-xs transition">
+                        📄 Lihat / Muat Turun Fail OPR (PDF/Image)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: PEMBUAT INVENTORI INTERAKTIF & ENGINE PENILAIAN AI -->
+    <section id="ai-inventory-builder" class="py-14 bg-gradient-to-br from-indigo-900 via-slate-900 to-emerald-950 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-6 gap-4">
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">Emoji / Icon (Contoh: 🌟, 🎯, 📚)</label>
-                    <input type="text" id="focus-emoji-input" placeholder="🌟" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-center text-lg" required>
+                    <span class="bg-amber-400 text-slate-900 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Engine Penilaian Pintar UBK</span>
+                    <h3 class="font-heading font-bold text-3xl mt-2">Ujian & Inventori Interaktif Kendiri</h3>
+                    <p class="text-slate-400 text-sm">Murid boleh menjawab soalan inventori di sini dan menerima keputusan penilaian AI secara serta-merta!</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="openCustomQuizModal()" class="admin-only hidden bg-amber-400 hover:bg-amber-500 text-slate-900 font-heading font-bold px-4 py-2.5 rounded-2xl text-xs shadow-md">
+                        🧠 + Tambah Inventori & Formulasi AI Baharu
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Display Grid for Students -->
+            <div id="quiz-list-container" class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="bg-sky-400/20 text-sky-300 text-xs font-bold px-3 py-1 rounded-full border border-sky-400/30">INVENTORI AKADEMIK</span>
+                        <span class="text-xs text-slate-400">2 Soalan Ringkas</span>
+                    </div>
+                    <h4 class="font-heading font-bold text-xl text-amber-300">Inventori Gaya Pembelajaran Murid (VARK)</h4>
+                    <p class="text-xs text-slate-300">Ujian bagi menguji samada anda seorang murid jenis Visual (Melihat), Auditori (Mendengar), atau Kinestetik (Pergerakan).</p>
+                    <button onclick="startInteractiveQuiz('vark')" class="w-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-heading font-bold py-3 rounded-2xl transition shadow-md text-xs">
+                        🚀 Mula Jawab Inventori & Dapatkan Analisis AI
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Runner Modal -->
+            <div id="quiz-runner-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+                <div class="bg-white text-slate-900 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative space-y-6">
+                    <button onclick="closeQuizRunnerModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
+                    
+                    <div id="quiz-question-screen" class="space-y-4">
+                        <div class="flex justify-between items-center text-xs text-slate-500 font-bold border-b pb-2">
+                            <span id="quiz-runner-title">Ujian Interaktif</span>
+                            <span id="quiz-runner-progress">Soalan 1 / 2</span>
+                        </div>
+                        <h4 id="quiz-question-text" class="font-heading font-bold text-lg text-slate-900">Soalan...</h4>
+                        <div id="quiz-options-container" class="space-y-2"></div>
+                    </div>
+
+                    <!-- AI Result Output -->
+                    <div id="quiz-result-screen" class="hidden space-y-4 text-center">
+                        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto shadow-md">
+                            🎯
+                        </div>
+                        <h4 class="font-heading font-bold text-2xl text-slate-900">Keputusan & Ulasan AI UBK</h4>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-left space-y-2 text-xs">
+                            <p class="font-bold text-slate-800 text-sm" id="ai-result-category">Kategori Utama: -</p>
+                            <p class="text-slate-600 leading-relaxed" id="ai-result-advice">Ulasan AI sedang diproses...</p>
+                        </div>
+                        <button onclick="closeQuizRunnerModal()" class="w-full bg-emerald-600 text-white font-heading font-bold py-3 rounded-xl">
+                            Selesai & Kembali Ke Portal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL: THEME & COLOR CUSTOMIZER -->
+    <div id="theme-customizer-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white text-slate-900 rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h4 class="font-heading font-bold text-lg">🎨 Editor Warna & Tajuk Portal</h4>
+                <button onclick="closeThemeCustomizerModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+            </div>
+            
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold mb-1">Tajuk Utama Sekolah</label>
+                    <input type="text" id="theme-title-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">Tajuk Fokus</label>
-                    <input type="text" id="focus-title-input" placeholder="Contoh: 5. Program Transisi Tahun 1" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold" required>
+                    <label class="block font-bold mb-1">Sub-Tajuk Portal</label>
+                    <input type="text" id="theme-subtitle-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">Keterangan Ringkas</label>
-                    <textarea id="focus-desc-input" rows="3" placeholder="Penerangan ringkas..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5" required></textarea>
+                    <label class="block font-bold mb-1">Pilih Skema Warna Latar Utama</label>
+                    <select id="theme-color-select" onchange="applyPortalTheme(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold">
+                        <option value="emerald">Hijau Sejahtera (Emerald Standard)</option>
+                        <option value="sky">Biru Ceria (Sky Blue)</option>
+                        <option value="amber">Kuning Harapan (Amber Warm)</option>
+                        <option value="purple">Ungu Kreatif (Purple Royal)</option>
+                    </select>
                 </div>
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl transition text-sm">
-                    + Tambah Ke Senarai Fokus UBK
-                </button>
-            </form>
+                <div>
+                    <label class="block font-bold mb-1">Muat Naik Fail Lagu Latar (.mp3 / .wav)</label>
+                    <input type="file" id="bg-music-upload" accept="audio/*" onchange="handleMusicUpload(event)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                </div>
+            </div>
+
+            <button onclick="saveThemeCustomization()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
+                💾 Simpan Perubahan Tema & Muzik
+            </button>
         </div>
     </div>
 
-    <!-- MODAL: UPLOAD GALLERY PHOTO -->
-    <div id="gallery-upload-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100">
-            <div class="flex justify-between items-center mb-4 border-b pb-3">
-                <h4 class="font-heading font-bold text-slate-900 text-lg">📸 Muat Naik Gambar Program</h4>
-                <button onclick="closeGalleryUploadModal()" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <form onsubmit="handleGalleryUpload(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Fail Gambar Dari Komputer/Telefon</label>
-                    <input type="file" id="gallery-file-input" accept="image/*" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-xl p-2" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Kategori / Tag Program</label>
-                    <input type="text" id="gallery-tag-input" placeholder="Contoh: SAHSIAH / KERJAYA" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-xl p-2.5" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Tajuk Program</label>
-                    <input type="text" id="gallery-title-input" placeholder="Contoh: Pelancaran Kempen Anti Buli" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-xl p-2.5" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Keterangan Ringkas</label>
-                    <textarea id="gallery-desc-input" rows="2" placeholder="Penerangan ringkas mengenai aktiviti ini..." class="w-full text-xs bg-slate-50 border border-slate-300 rounded-xl p-2.5" required></textarea>
-                </div>
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl text-sm transition">
-                    + Tambah Gambar Ke Galeri
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL: EDIT GBK PROFILE -->
-    <div id="gbk-editor-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100">
-            <div class="flex justify-between items-center mb-4 border-b pb-3">
-                <h4 class="font-heading font-bold text-slate-900 text-lg">🖼️ Edit Profil & Foto GBK SK Kebagu</h4>
-                <button onclick="closeGbkEditorModal()" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <form onsubmit="handleGbkSave(event)" class="space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Muat Naik Foto Baharu GBK (JPG / PNG)</label>
-                    <input type="file" id="gbk-file-input" accept="image/*" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Nama Penuh Guru</label>
-                    <input type="text" id="gbk-name-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold" required>
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Jawatan / Peranan</label>
-                    <input type="text" id="gbk-role-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5" required>
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Fokus Bimbingan</label>
-                    <input type="text" id="gbk-focus-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5" required>
-                </div>
-                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-heading font-bold py-2.5 rounded-xl transition text-sm">
-                    💾 Simpan Perubahan Profil GBK
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL: EDIT INFO BULLETIN & ATTACH FILE -->
-    <div id="info-editor-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100">
-            <div class="flex justify-between items-center mb-4 border-b pb-3">
-                <h4 class="font-heading font-bold text-slate-900 text-lg">✏️ Edit Bulletin & Upload Fail Info</h4>
-                <button onclick="closeInfoEditorModal()" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <form onsubmit="handleInfoSave(event)" class="space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Kategori Tag</label>
-                    <input type="text" id="bulletin-tag-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5" required>
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Tajuk Pengumuman</label>
-                    <input type="text" id="bulletin-title-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold" required>
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Ringkasan Mesej Info</label>
-                    <textarea id="bulletin-desc-input" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5" required></textarea>
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Upload Fail Terlampir (Word / PDF / Excel / Gambar)</label>
-                    <input type="file" id="bulletin-file-input" accept=".pdf,.doc,.docx,.xlsx,.xls,.jpg,.png" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
-                </div>
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl transition text-sm">
-                    💾 Kemas Kini Pengumuman & Fail
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL: UNIVERSAL SECTION FILE UPLOADER -->
-    <div id="section-file-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100">
-            <div class="flex justify-between items-center mb-4 border-b pb-3">
-                <h4 class="font-heading font-bold text-slate-900 text-lg" id="modal-section-title">📂 Muat Naik Fail Baharu</h4>
-                <button onclick="closeSectionFileUploadModal()" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <form onsubmit="handleSectionFileUpload(event)" class="space-y-4 text-xs">
-                <div class="p-3 bg-amber-50 rounded-2xl border border-amber-200">
-                    <span class="font-bold text-amber-900 block mb-1">💡 Petua Format Fail:</span>
-                    <p class="text-slate-600">Anda boleh muat naik fail **Word (.docx)**, **PDF (.pdf)**, **Excel (.xlsx)**, atau **Gambar (.jpg/.png)** untuk menukar borang soalan atau analisis data pada bahagian ini.</p>
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Pilih Fail Dari Komputer/Telefon</label>
-                    <input type="file" id="universal-file-input" accept=".pdf,.doc,.docx,.xlsx,.xls,.jpg,.png" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2" required>
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Label Butang Paparan (Optional)</label>
-                    <input type="text" id="file-label-input" placeholder="Contoh: Muat Turun Soalan Ujian Terbaru" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
-                </div>
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl transition text-sm">
-                    💾 Kemas Kini Fail Baharu Pada Portal
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC & CHART.JS -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // ADMIN PASSCODE SYSTEM
-        const ADMIN_PASSCODE = "2002"; // Custom admin passcode
+        const ADMIN_PASSCODE = "2002";
         let isAdminLoggedIn = false;
-        let activeSectionTarget = "";
+        let isMusicPlaying = false;
 
-        // File store registry (Simulated client-side file storage)
-        const uploadedFilesRegistry = {};
+        // Initialize state & charts on Window Load
+        window.onload = function() {
+            initCharts();
+            loadSavedPortalState();
+        };
 
+        // ADMIN ACCESS & AUTH
         function promptAdminLogin() {
             if (isAdminLoggedIn) {
-                alert("Anda sudah pun log masuk sebagai Admin Portal!");
+                if (confirm("Log keluar dari Mod Admin?")) {
+                    isAdminLoggedIn = false;
+                    document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
+                    alert("Mod Admin ditutup.");
+                }
                 return;
             }
-            const passcode = prompt("Sila masukkan Kod Keselamatan Admin Portal:");
-            if (passcode === ADMIN_PASSCODE) {
+            const pass = prompt("Masukkan Kod Keselamatan Admin (Passcode):");
+            if (pass === ADMIN_PASSCODE) {
                 isAdminLoggedIn = true;
-                alert("Tahniah! Akses Admin Berjaya. Butang penyuntingan & Pusat Data Murid kini dipaparkan di portal anda.");
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
-            } else if (passcode !== null) {
-                alert("Kod Keselamatan Salah! Akses Ditolak.");
+                alert("Akses Admin Berjaya! Anda boleh mengemaskini maklumat & memuat naik fail.");
+            } else if (pass !== null) {
+                alert("Passcode salah! Akses ditolak.");
             }
         }
 
-        // Mobile Navigation Toggle
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        menuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+        // BACKGROUND MUSIC AUTOPLAY & TOGGLE LOGIC
+        function toggleBackgroundMusic() {
+            const audio = document.getElementById('bg-audio');
+            const icon = document.getElementById('music-icon');
+            const statusText = document.getElementById('music-status-text');
 
-        // COUNTER SYSTEM FOR COUNSELING SESSIONS
-        let sessionCountIndividu = 48;
-        let sessionCountKelompok = 26;
-
-        function updateSessionCount(type, delta) {
-            if (type === 'individu') {
-                sessionCountIndividu = Math.max(0, sessionCountIndividu + delta);
-                document.getElementById('count-individu-display').innerText = sessionCountIndividu;
-                document.getElementById('input-individu-count').value = sessionCountIndividu;
+            if (isMusicPlaying) {
+                audio.pause();
+                isMusicPlaying = false;
+                icon.classList.remove('animate-spin');
+                statusText.innerText = "🎵 Muzik (Off)";
             } else {
-                sessionCountKelompok = Math.max(0, sessionCountKelompok + delta);
-                document.getElementById('count-kelompok-display').innerText = sessionCountKelompok;
-                document.getElementById('input-kelompok-count').value = sessionCountKelompok;
+                audio.play().then(() => {
+                    isMusicPlaying = true;
+                    icon.classList.add('animate-spin');
+                    statusText.innerText = "🎵 Muzik (On)";
+                }).catch(err => {
+                    alert("Sila klik di mana-mana kawasan skrin terlebih dahulu untuk membolehkan audio dimainkan.");
+                });
             }
         }
 
-        function setManualSessionCount(type) {
-            if (type === 'individu') {
-                const val = parseInt(document.getElementById('input-individu-count').value) || 0;
-                sessionCountIndividu = Math.max(0, val);
-                document.getElementById('count-individu-display').innerText = sessionCountIndividu;
-            } else {
-                const val = parseInt(document.getElementById('input-kelompok-count').value) || 0;
-                sessionCountKelompok = Math.max(0, val);
-                document.getElementById('count-kelompok-display').innerText = sessionCountKelompok;
-            }
-        }
-
-        // Booking Form Handling
-        function handleBookingSubmit(e) {
-            e.preventDefault();
-            const successToast = document.getElementById('booking-success');
-            const form = document.getElementById('booking-form');
-            successToast.classList.remove('hidden');
-            form.reset();
-            setTimeout(() => { successToast.classList.add('hidden'); }, 6000);
-        }
-
-        // Anonymous Modal Controls
-        function openAnonModal() { document.getElementById('anon-modal').classList.remove('hidden'); }
-        function closeAnonModal() { document.getElementById('anon-modal').classList.add('hidden'); }
-        function sendAnonMessage() {
-            const anonText = document.getElementById('anon-text').value;
-            if (!anonText.trim()) { alert("Sila tulis luahan anda terlebih dahulu."); return; }
-            alert("Luahan rahsia anda telah berjaya dihantar kepada Cikgu Kaunseling SK Kebagu secara selamat!");
-            document.getElementById('anon-text').value = '';
-            closeAnonModal();
-        }
-
-        // DYNAMIC REMOVE ELEMENT CARDS
-        function removeGalleryCard(btn) {
-            if (confirm("Adakah anda pasti mahu membuang gambar ini dari galeri?")) {
-                btn.closest('.gallery-card').remove();
-            }
-        }
-
-        function removeElementCard(btn) {
-            if (confirm("Adakah anda pasti mahu membuang elemen fokus ini?")) {
-                btn.closest('.fokus-card').remove();
-            }
-        }
-
-        // ADD NEW FOCUS ITEM MODAL
-        function openAddFocusModal() { document.getElementById('add-focus-modal').classList.remove('hidden'); }
-        function closeAddFocusModal() { document.getElementById('add-focus-modal').classList.add('hidden'); }
-        
-        function handleAddFocus(e) {
-            e.preventDefault();
-            const emoji = document.getElementById('focus-emoji-input').value;
-            const title = document.getElementById('focus-title-input').value;
-            const desc = document.getElementById('focus-desc-input').value;
-
-            const container = document.getElementById('fokus-container');
-            const newCardHTML = `
-                <div class="fokus-card bg-white p-6 rounded-3xl border-2 border-emerald-100 shadow-sm text-center relative">
-                    <button onclick="removeElementCard(this)" class="admin-only ${isAdminLoggedIn ? '' : 'hidden'} absolute top-3 right-3 text-rose-500 hover:text-rose-700 font-bold text-xs" title="Buang Elemen">🗑️</button>
-                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-2xl flex items-center justify-center mx-auto mb-3">${emoji}</div>
-                    <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">${title}</h4>
-                    <p class="text-xs text-slate-600 leading-relaxed">${desc}</p>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', newCardHTML);
-            closeAddFocusModal();
-            alert("Elemen Fokus UBK baharu berjaya ditambah!");
-        }
-
-        // UNIVERSAL SECTION FILE UPLOAD SYSTEM
-        function openSectionFileUploadModal(targetKey) {
-            activeSectionTarget = targetKey;
-            document.getElementById('modal-section-title').innerText = `📂 Muat Naik Fail Baharu (${targetKey.toUpperCase()})`;
-            document.getElementById('section-file-modal').classList.remove('hidden');
-        }
-        function closeSectionFileUploadModal() { document.getElementById('section-file-modal').classList.add('hidden'); }
-
-        function handleSectionFileUpload(e) {
-            e.preventDefault();
-            const fileInput = document.getElementById('universal-file-input');
-            const customLabel = document.getElementById('file-label-input').value;
-
-            if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0];
-                const fileUrl = URL.createObjectURL(file);
-                uploadedFilesRegistry[activeSectionTarget] = {
-                    url: fileUrl,
-                    name: file.name,
-                    label: customLabel || file.name
-                };
-
-                // Update UI button links dynamically
-                if (activeSectionTarget === 'psikometrik_t4') {
-                    const btn = document.getElementById('psiko-t4-link');
-                    btn.href = fileUrl;
-                    btn.innerText = `📄 ${customLabel || 'Muat Turun Fail T4 (' + file.name + ')'}`;
-                } else if (activeSectionTarget === 'psikometrik_t5') {
-                    const btn = document.getElementById('psiko-t5-link');
-                    btn.href = fileUrl;
-                    btn.innerText = `📄 ${customLabel || 'Muat Turun Fail T5 (' + file.name + ')'}`;
-                } else if (activeSectionTarget === 'psikometrik_t6') {
-                    const btn = document.getElementById('psiko-t6-link');
-                    btn.href = fileUrl;
-                    btn.innerText = `📄 ${customLabel || 'Muat Turun Fail T6 (' + file.name + ')'}`;
-                } else if (activeSectionTarget === 'minda_sihat') {
-                    const btn = document.getElementById('minda-sihat-quiz-link');
-                    btn.href = fileUrl;
-                    btn.innerText = `📄 ${customLabel || 'Muat Turun Fail Minda Sihat (' + file.name + ')'}`;
-                }
-
-                closeSectionFileUploadModal();
-                alert(`Fail ${file.name} berjaya dikemaskini pada portal!`);
-            }
-        }
-
-        function handleQuizOrFileClick(type, event) {
-            if (uploadedFilesRegistry[`psikometrik_${type.toLowerCase()}`] || uploadedFilesRegistry['minda_sihat']) {
-                // If a file was uploaded by admin, let default link download occur
-                return true;
-            }
-            event.preventDefault();
-            alert(`Borang Digital ${type} SK Kebagu sedia digunakan. (Cikgu boleh upload fail soalan khas Word/PDF/Excel di bahagian Admin).`);
-        }
-
-        // Gallery Dynamic Upload Logic
-        function openGalleryUploadModal() { document.getElementById('gallery-upload-modal').classList.remove('hidden'); }
-        function closeGalleryUploadModal() { document.getElementById('gallery-upload-modal').classList.add('hidden'); }
-        
-        function handleGalleryUpload(e) {
-            e.preventDefault();
-            const fileInput = document.getElementById('gallery-file-input');
-            const tag = document.getElementById('gallery-tag-input').value;
-            const title = document.getElementById('gallery-title-input').value;
-            const desc = document.getElementById('gallery-desc-input').value;
-
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    const imageUrl = evt.target.result;
-                    const galleryContainer = document.getElementById('gallery-container');
-                    
-                    const newItemHTML = `
-                        <div class="gallery-card bg-white rounded-3xl overflow-hidden border-2 border-slate-200 shadow-sm hover:shadow-md transition relative">
-                            <button onclick="removeGalleryCard(this)" class="admin-only ${isAdminLoggedIn ? '' : 'hidden'} absolute top-3 right-3 bg-rose-600 text-white rounded-full w-8 h-8 font-bold text-xs shadow-md z-10 hover:bg-rose-700" title="Buang Elemen">🗑️</button>
-                            <div class="h-48 overflow-hidden">
-                                <img src="${imageUrl}" alt="${title}" class="w-full h-full object-cover">
-                            </div>
-                            <div class="p-4">
-                                <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md">${tag.toUpperCase()}</span>
-                                <h4 class="font-heading font-bold text-slate-900 text-base mt-1">${title}</h4>
-                                <p class="text-xs text-slate-500 mt-1">${desc}</p>
-                            </div>
-                        </div>
-                    `;
-                    galleryContainer.insertAdjacentHTML('afterbegin', newItemHTML);
-                    closeGalleryUploadModal();
-                    alert("Gambar aktiviti baharu berjaya dimuat naik ke galeri!");
-                }
-                reader.readAsDataURL(fileInput.files[0]);
-            }
-        }
-
-        // GBK Profile Editor (Single GBK)
-        function openGbkEditorModal() {
-            document.getElementById('gbk-name-input').value = document.getElementById('gbk1-name').innerText;
-            document.getElementById('gbk-role-input').value = document.getElementById('gbk1-role').innerText;
-            document.getElementById('gbk-focus-input').value = document.getElementById('gbk1-focus').innerText;
-            document.getElementById('gbk-editor-modal').classList.remove('hidden');
-        }
-        function closeGbkEditorModal() { document.getElementById('gbk-editor-modal').classList.add('hidden'); }
-
-        function handleGbkSave(e) {
-            e.preventDefault();
-            const name = document.getElementById('gbk-name-input').value;
-            const role = document.getElementById('gbk-role-input').value;
-            const focus = document.getElementById('gbk-focus-input').value;
-            const fileInput = document.getElementById('gbk-file-input');
-
-            document.getElementById('gbk1-name').innerText = name;
-            document.getElementById('gbk1-role').innerText = role;
-            document.getElementById('gbk1-focus').innerText = focus;
-
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    document.getElementById('gbk1-img').src = evt.target.result;
-                }
-                reader.readAsDataURL(fileInput.files[0]);
-            }
-
-            closeGbkEditorModal();
-            alert("Profil Guru Bimbingan dan Kaunseling SK Kebagu berjaya dikemaskini!");
-        }
-
-        // Info Bulletin Editor with File Attachment
-        function openInfoEditorModal() {
-            document.getElementById('bulletin-tag-input').value = document.getElementById('bulletin-tag-display').innerText;
-            document.getElementById('bulletin-title-input').value = document.getElementById('bulletin-title-display').innerText;
-            document.getElementById('bulletin-desc-input').value = document.getElementById('bulletin-desc-display').innerText;
-            document.getElementById('info-editor-modal').classList.remove('hidden');
-        }
-        function closeInfoEditorModal() { document.getElementById('info-editor-modal').classList.add('hidden'); }
-
-        function handleInfoSave(e) {
-            e.preventDefault();
-            document.getElementById('bulletin-tag-display').innerText = document.getElementById('bulletin-tag-input').value.toUpperCase();
-            document.getElementById('bulletin-title-display').innerText = document.getElementById('bulletin-title-input').value;
-            document.getElementById('bulletin-desc-display').innerText = document.getElementById('bulletin-desc-input').value;
-            
-            const fileInput = document.getElementById('bulletin-file-input');
-            if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0];
-                const fileUrl = URL.createObjectURL(file);
-                const fileLinkContainer = document.getElementById('bulletin-file-link');
-                const downloadBtn = document.getElementById('bulletin-download-btn');
-                const fileNameSpan = document.getElementById('bulletin-file-name');
-
-                downloadBtn.href = fileUrl;
-                fileNameSpan.innerText = `Muat Turun: ${file.name}`;
-                fileLinkContainer.classList.remove('hidden');
-            }
-
-            closeInfoEditorModal();
-            alert("Sudut Info UBK Minggu Ini berjaya dikemaskini!");
-        }
-
-        // PRIVATE STUDENT DATA CENTER LOGIC
-        function handleStudentExcelUpload(e) {
+        function handleMusicUpload(e) {
             const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                try {
-                    const data = new Uint8Array(evt.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                    const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
-
-                    const tbody = document.getElementById('student-table-body');
-                    tbody.innerHTML = '';
-
-                    let recordCount = 0;
-                    for (let i = 1; i < jsonData.length; i++) {
-                        const row = jsonData[i];
-                        if (row && row.length > 0) {
-                            recordCount++;
-                            const tr = document.createElement('tr');
-                            tr.innerHTML = `
-                                <td class="p-3.5">${recordCount}</td>
-                                <td class="p-3.5 font-bold text-white">${row[0] || 'N/A'}</td>
-                                <td class="p-3.5">${row[1] || 'N/A'}</td>
-                                <td class="p-3.5">${row[2] || 'N/A'}</td>
-                                <td class="p-3.5"><span class="bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded">${row[3] || 'Rekod Dimuat Naik'}</span></td>
-                                <td class="p-3.5 text-center">
-                                    <button onclick="deleteStudentRow(this)" class="text-rose-400 hover:text-rose-300 font-bold">🗑️ Padam</button>
-                                </td>
-                            `;
-                            tbody.appendChild(tr);
-                        }
-                    }
-                    document.getElementById('student-record-count').innerText = recordCount;
-                    alert(`Berjaya memuat naik ${recordCount} rekod murid ke Pusat Data Sulit UBK!`);
-                } catch (err) {
-                    alert("Format fail tidak sah. Sila guna fail Excel (.xlsx) atau CSV yang berstruktur.");
-                }
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function deleteStudentRow(btn) {
-            if (confirm("Adakah anda pasti mahu memadam rekod murid ini dari Pusat Data?")) {
-                btn.closest('tr').remove();
-                const tbody = document.getElementById('student-table-body');
-                document.getElementById('student-record-count').innerText = tbody.querySelectorAll('tr').length;
+            if (file) {
+                const audioUrl = URL.createObjectURL(file);
+                const audioSource = document.getElementById('bg-audio-source');
+                const audio = document.getElementById('bg-audio');
+                audioSource.src = audioUrl;
+                audio.load();
+                alert("Fail lagu latar baharu berjaya dimuat naik!");
             }
         }
 
-        function filterStudentTable() {
-            const query = document.getElementById('student-search-input').value.toLowerCase();
-            const selectedClass = document.getElementById('student-class-filter').value.toLowerCase();
-            const rows = document.querySelectorAll('#student-table-body tr');
+        // PERSISTENCE (LOCALSTORAGE SAVE & UNDO)
+        function savePortalState() {
+            const portalData = {
+                schoolTitle: document.getElementById('school-title-display').innerText,
+                schoolSubtitle: document.getElementById('school-subtitle-display').innerText,
+                individuCount: document.getElementById('count-individu-display').innerText,
+                kelompokCount: document.getElementById('count-kelompok-display').innerText,
+                galleryHTML: document.getElementById('gallery-container').innerHTML,
+                oprHTML: document.getElementById('opr-grid-container').innerHTML
+            };
+            localStorage.setItem('ubk_portal_state', JSON.stringify(portalData));
+            alert("💾 Semua perubahan portal berjaya disimpan secara kekal!");
+        }
 
-            rows.forEach(row => {
-                const name = row.children[1].innerText.toLowerCase();
-                const kelas = row.children[2].innerText.toLowerCase();
+        function saveAllChangesToStorage() { savePortalState(); }
 
-                const matchesSearch = name.includes(query);
-                const matchesClass = !selectedClass || kelas.includes(selectedClass);
+        function loadSavedPortalState() {
+            const saved = localStorage.getItem('ubk_portal_state');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    if (data.schoolTitle) document.getElementById('school-title-display').innerText = data.schoolTitle;
+                    if (data.schoolSubtitle) document.getElementById('school-subtitle-display').innerText = data.schoolSubtitle;
+                    if (data.individuCount) document.getElementById('count-individu-display').innerText = data.individuCount;
+                    if (data.kelompokCount) document.getElementById('count-kelompok-display').innerText = data.kelompokCount;
+                    if (data.galleryHTML) document.getElementById('gallery-container').innerHTML = data.galleryHTML;
+                    if (data.oprHTML) document.getElementById('opr-grid-container').innerHTML = data.oprHTML;
+                } catch(e) { console.error("Error loading state", e); }
+            }
+        }
 
-                if (matchesSearch && matchesClass) {
-                    row.style.display = '';
+        function resetDataToDefault() {
+            if (confirm("Adakah anda pasti untuk reset semula semua data portal kepada tetapan asal?")) {
+                localStorage.removeItem('ubk_portal_state');
+                location.reload();
+            }
+        }
+
+        // THEME & COLOR CUSTOMIZER
+        function openThemeCustomizerModal() {
+            document.getElementById('theme-title-input').value = document.getElementById('school-title-display').innerText;
+            document.getElementById('theme-subtitle-input').value = document.getElementById('school-subtitle-display').innerText;
+            document.getElementById('theme-customizer-modal').classList.remove('hidden');
+        }
+        function closeThemeCustomizerModal() { document.getElementById('theme-customizer-modal').classList.add('hidden'); }
+
+        function saveThemeCustomization() {
+            const newTitle = document.getElementById('theme-title-input').value;
+            const newSub = document.getElementById('theme-subtitle-input').value;
+            document.getElementById('school-title-display').innerText = newTitle;
+            document.getElementById('school-subtitle-display').innerText = newSub;
+            closeThemeCustomizerModal();
+            alert("Kemas kini warna & tajuk portal berjaya!");
+        }
+
+        function applyPortalTheme(color) {
+            const body = document.body;
+            body.className = body.className.replace(/bg-\w+-\d+\/\d+/g, '');
+            if (color === 'sky') body.classList.add('bg-sky-50/30');
+            else if (color === 'amber') body.classList.add('bg-amber-50/30');
+            else if (color === 'purple') body.classList.add('bg-purple-50/30');
+            else body.classList.add('bg-amber-50/30');
+        }
+
+        // OPR REPORT ARCHIVE & FILTERS
+        function openOprUploadModal() { document.getElementById('opr-upload-modal').classList.remove('hidden'); }
+        function closeOprUploadModal() { document.getElementById('opr-upload-modal').classList.add('hidden'); }
+
+        function handleOprUpload(e) {
+            e.preventDefault();
+            const year = document.getElementById('opr-year-input').value;
+            const category = document.getElementById('opr-category-input').value;
+            const title = document.getElementById('opr-title-input').value;
+            const fileInput = document.getElementById('opr-file-input');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const fileUrl = URL.createObjectURL(fileInput.files[0]);
+                const oprContainer = document.getElementById('opr-grid-container');
+                
+                const newOprCard = `
+                    <div class="opr-card bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-sm space-y-3 relative" data-year="${year}" data-category="${category}">
+                        <button onclick="removeOprCard(this)" class="admin-only ${isAdminLoggedIn ? '' : 'hidden'} absolute top-3 right-3 text-rose-500 font-bold text-xs" title="Padam OPR">🗑️</button>
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-md">${category.toUpperCase()}</span>
+                            <span class="font-bold text-slate-400">📅 ${year}</span>
+                        </div>
+                        <h4 class="font-heading font-bold text-slate-900 text-base">${title}</h4>
+                        <p class="text-xs text-slate-500">Laporan Rasmi OPR Unit Bimbingan dan Kaunseling.</p>
+                        <a href="${fileUrl}" target="_blank" class="block w-full text-center bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-700 font-heading font-bold py-2 rounded-xl text-xs transition">
+                            📄 Lihat Fail OPR (${fileInput.files[0].name})
+                        </a>
+                    </div>
+                `;
+                oprContainer.insertAdjacentHTML('afterbegin', newOprCard);
+                closeOprUploadModal();
+                alert("Fail OPR baharu berjaya ditambahkan ke dalam rekod!");
+            }
+        }
+
+        function removeOprCard(btn) {
+            if (confirm("Padam rekod laporan OPR ini?")) {
+                btn.closest('.opr-card').remove();
+            }
+        }
+
+        function filterOprReports() {
+            const yearVal = document.getElementById('opr-year-filter').value;
+            const catVal = document.getElementById('opr-category-filter').value;
+            const cards = document.querySelectorAll('.opr-card');
+
+            cards.forEach(card => {
+                const cardYear = card.getAttribute('data-year');
+                const cardCat = card.getAttribute('data-category');
+
+                const matchYear = (yearVal === 'ALL' || cardYear === yearVal);
+                const matchCat = (catVal === 'ALL' || cardCat === catVal);
+
+                if (matchYear && matchCat) {
+                    card.style.display = '';
                 } else {
-                    row.style.display = 'none';
+                    card.style.display = 'none';
                 }
             });
         }
 
-        function downloadExcelTemplate() {
-            const csvContent = "data:text/csv;charset=utf-8,Nama Murid,Kelas,Jantina,Catatan GBK\nAhmad Zaki Bin Rosli,4 Cemerlang,Lelaki,IAT4 Selesai\nNur Aisyah Binti Mohd Haris,5 Bijak,Perempuan,IKP T5 Selesai";
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "Template_Data_Murid_SK_Kebagu.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        // INTERACTIVE AI QUIZ ENGINE
+        const sampleVarkQuiz = [
+            {
+                question: "1. Apabila anda mempelajari sesuatu topik baharu di kelas, anda lebih suka:",
+                options: [
+                    { text: "Melihat carta, gambar rajah, dan video penjelasan", type: "Visual" },
+                    { text: "Mendengar penerangan guru secara lisan", type: "Auditori" },
+                    { text: "Melakukan sendiri aktiviti amali dan eksperimen", type: "Kinestetik" }
+                ]
+            },
+            {
+                question: "2. Semasa membuat persediaan sebelum ujian, cara terbaik anda mengingati fakta ialah:",
+                options: [
+                    { text: "Membaca nota berwarna-warni dan lukisan minda", type: "Visual" },
+                    { text: "Membaca nota dengan suara nyaring atau berbincang", type: "Auditori" },
+                    { text: "Menaip nota sambil bergerak atau menulis semula", type: "Kinestetik" }
+                ]
+            }
+        ];
+
+        let currentAnswers = [];
+
+        function startInteractiveQuiz(quizType) {
+            currentAnswers = [];
+            document.getElementById('quiz-question-screen').classList.remove('hidden');
+            document.getElementById('quiz-result-screen').classList.add('hidden');
+            document.getElementById('quiz-runner-modal').classList.remove('hidden');
+
+            renderQuestion(0);
         }
 
-        // --- CHART 1: PSIKOMETRIK CHART ---
-        window.onload = function() {
-            const ctxPsiko = document.getElementById('psikometrikChart').getContext('2d');
-            new Chart(ctxPsiko, {
-                type: 'bar',
-                data: {
-                    labels: ['Verbal-Linguistik', 'Logik-Matematik', 'Visual-Ruang', 'Kinestetik', 'Muzik', 'Interpersonal', 'Intrapersonal'],
-                    datasets: [{
-                        label: 'Peratus Kecenderungan Murid (%)',
-                        data: [85, 72, 90, 88, 65, 94, 78],
-                        backgroundColor: '#38bdf8',
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, max: 100 } }
-                }
-            });
+        function renderQuestion(index) {
+            const qData = sampleVarkQuiz[index];
+            document.getElementById('quiz-runner-progress').innerText = `Soalan ${index + 1} / ${sampleVarkQuiz.length}`;
+            document.getElementById('quiz-question-text').innerText = qData.question;
 
-            // --- CHART 2: MINDA SIHAT CHART ---
-            renderMindaChart(dataJantina);
-        };
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = '';
 
-        const ctxMinda = document.getElementById('mindaSihatChart').getContext('2d');
-        let mindaChart;
-
-        const dataJantina = {
-            labels: ['Lelaki', 'Perempuan'],
-            datasets: [
-                { label: 'Sejahtera (Ceria)', data: [140, 165], backgroundColor: '#22c55e', borderRadius: 6 },
-                { label: 'Perlukan Bimbingan', data: [25, 18], backgroundColor: '#fb923c', borderRadius: 6 }
-            ]
-        };
-
-        const dataKelas = {
-            labels: ['Tahun 1', 'Tahun 2', 'Tahun 3', 'Tahun 4', 'Tahun 5', 'Tahun 6'],
-            datasets: [
-                { label: 'Sejahtera (Ceria)', data: [50, 52, 48, 55, 49, 51], backgroundColor: '#22c55e', borderRadius: 6 },
-                { label: 'Perlukan Bimbingan', data: [5, 4, 6, 8, 10, 10], backgroundColor: '#fb923c', borderRadius: 6 }
-            ]
-        };
-
-        function renderMindaChart(dataConfig) {
-            if (mindaChart) mindaChart.destroy();
-            mindaChart = new Chart(ctxMinda, {
-                type: 'bar',
-                data: dataConfig,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: { y: { beginAtZero: true } }
-                }
+            qData.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3.5 bg-slate-100 hover:bg-emerald-100 hover:border-emerald-500 border border-slate-200 rounded-2xl text-xs font-bold transition flex items-center justify-between";
+                btn.innerHTML = `<span>${opt.text}</span> <i class="fa-solid fa-chevron-right text-slate-400"></i>`;
+                btn.onclick = () => {
+                    currentAnswers.push(opt.type);
+                    if (index + 1 < sampleVarkQuiz.length) {
+                        renderQuestion(index + 1);
+                    } else {
+                        computeAiDiagnosticResult();
+                    }
+                };
+                container.appendChild(btn);
             });
         }
 
-        function updateMindaChart() {
-            const filterVal = document.getElementById('chart-filter').value;
-            if (filterVal === 'jantina') {
-                renderMindaChart(dataJantina);
+        function computeAiDiagnosticResult() {
+            document.getElementById('quiz-question-screen').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.remove('hidden');
+
+            const counts = {};
+            currentAnswers.forEach(ans => counts[ans] = (counts[ans] || 0) + 1);
+            const dominantType = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+
+            let adviceText = "";
+            if (dominantType === "Visual") {
+                adviceText = "AI Diagnostic: Anda seorang Pelajar Visual! Anda paling berkesan belajar menggunakan peta minda, visual grafik, dan nota berwarna-warni.";
+            } else if (dominantType === "Auditori") {
+                adviceText = "AI Diagnostic: Anda seorang Pelajar Auditori! Anda sangat peka pada penerangan lisan. Cuba dengar rakaman pengajaran atau terangkan semula fakta kepada rakan sekelas.";
             } else {
-                renderMindaChart(dataKelas);
+                adviceText = "AI Diagnostic: Anda seorang Pelajar Kinestetik! Anda suka belajar melalui pergerakan dan amali. Selang-selikan masa belajar 20 minit dengan aktiviti regangan badan.";
+            }
+
+            document.getElementById('ai-result-category').innerText = `Kecenderungan Utama: Pelajar ${dominantType}`;
+            document.getElementById('ai-result-advice').innerText = adviceText;
+        }
+
+        function closeQuizRunnerModal() {
+            document.getElementById('quiz-runner-modal').classList.add('hidden');
+        }
+
+        // CHART INIT
+        function initCharts() {
+            const ctx1 = document.getElementById('psikometrikChart');
+            if (ctx1) {
+                new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Verbal', 'Visual-Ruang', 'Logik', 'Muzik', 'Kinestetik', 'Interpersonal'],
+                        datasets: [{
+                            label: 'Jumlah Murid (Orang)',
+                            data: [42, 38, 25, 18, 50, 45],
+                            backgroundColor: '#22c55e'
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+
+            const ctx2 = document.getElementById('mindaSihatChart');
+            if (ctx2) {
+                new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Sejahtera / Tenang', 'Perlukan Bimbingan'],
+                        datasets: [{
+                            data: [82, 18],
+                            backgroundColor: ['#16a34a', '#fb923c']
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
             }
         }
     </script>
