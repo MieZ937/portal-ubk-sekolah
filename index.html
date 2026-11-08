@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal e-UBK Sekolah Rendah</title>
+    <title>Portal e-UBK SK Kebagu</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Fredoka & Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js for Interactive Data Analysis -->
+    <!-- Chart.js for Data Analysis -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+    <!-- SheetJS for Client-Side Excel File Reading -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -21,9 +23,11 @@
                         ubk: {
                             50: '#f0fdf4',
                             100: '#dcfce7',
+                            200: '#bbf7d0',
                             500: '#22c55e',
                             600: '#16a34a',
                             700: '#15803d',
+                            800: '#166534',
                             yellow: '#facc15',
                             orange: '#fb923c',
                             blue: '#38bdf8',
@@ -49,33 +53,44 @@
 <body class="bg-amber-50/30 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
 
     <!-- NAVIGATION BAR -->
-    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-2 border-emerald-200 shadow-sm">
+    <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-2 border-emerald-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center space-x-3">
                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-ubk-500 to-teal-400 flex items-center justify-center text-white text-2xl shadow-md shadow-emerald-500/20">
-                        🌟
+                        🏫
                     </div>
                     <div>
-                        <span class="font-heading font-bold text-xl text-slate-900 block leading-tight">e-UBK Sekolah Rendah</span>
+                        <span class="font-heading font-bold text-xl text-slate-900 block leading-tight" id="school-title-display">Portal e-UBK SK Kebagu</span>
                         <span class="text-xs text-ubk-600 font-semibold">Unit Bimbingan & Kaunseling Mesra Murid</span>
                     </div>
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden lg:flex items-center space-x-5 text-sm">
+                <div class="hidden lg:flex items-center space-x-4 text-sm">
                     <a href="#utama" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Utama</a>
                     <a href="#profil" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Profil GBK</a>
+                    <a href="#statistik" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Statistik Sesi</a>
+                    <a href="#galeri" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Galeri</a>
                     <a href="#fokus" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">4 Fokus</a>
                     <a href="#psikometrik" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Psikometrik</a>
                     <a href="#minda-sihat" class="text-slate-700 hover:text-ubk-600 font-heading font-semibold transition">Minda Sihat 🧠</a>
+                    
                     <a href="#temujanji" class="bg-gradient-to-r from-ubk-500 to-teal-600 hover:from-ubk-600 hover:to-teal-700 text-white font-heading font-bold px-4 py-2 rounded-full transition shadow-md flex items-center gap-1.5">
                         💬 E-Kaunseling
                     </a>
+
+                    <!-- ADMIN ACCESS BUTTON -->
+                    <button onclick="promptAdminLogin()" class="bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold px-3.5 py-2 rounded-full transition shadow-md text-xs flex items-center gap-1.5 border border-amber-400/30">
+                        🔒 Admin Portal
+                    </button>
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <div class="lg:hidden flex items-center">
+                <div class="lg:hidden flex items-center gap-2">
+                    <button onclick="promptAdminLogin()" class="bg-slate-800 text-amber-300 font-heading font-bold px-3 py-1.5 rounded-xl text-xs">
+                        🔒 Admin
+                    </button>
                     <button id="mobile-menu-btn" class="text-slate-700 hover:text-slate-900 focus:outline-none p-2 text-2xl">
                         <i class="fa-solid fa-bars"></i>
                     </button>
@@ -87,6 +102,8 @@
         <div id="mobile-menu" class="hidden lg:hidden bg-white border-b-2 border-emerald-200 px-4 pt-2 pb-4 space-y-2 font-heading text-sm">
             <a href="#utama" class="block py-2 text-slate-700 font-semibold">Utama</a>
             <a href="#profil" class="block py-2 text-slate-700 font-semibold">Profil GBK</a>
+            <a href="#statistik" class="block py-2 text-slate-700 font-semibold">Statistik Sesi Selesai</a>
+            <a href="#galeri" class="block py-2 text-slate-700 font-semibold">Galeri Aktiviti UBK</a>
             <a href="#fokus" class="block py-2 text-slate-700 font-semibold">4 Fokus Utama</a>
             <a href="#psikometrik" class="block py-2 text-slate-700 font-semibold">Ujian Psikometrik</a>
             <a href="#minda-sihat" class="block py-2 text-slate-700 font-semibold">Sudut Minda Sihat 🧠</a>
@@ -100,13 +117,13 @@
             <div class="grid lg:grid-cols-12 gap-8 items-center">
                 <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
                     <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 text-ubk-800 text-xs font-bold uppercase tracking-wider border border-emerald-300">
-                        🌈 Sekolahku SEJAHTERA & Ceria!
+                        🏫 SK Kebagu SEJAHTERA & Ceria!
                     </div>
                     <h1 class="font-heading font-extrabold text-4xl sm:text-5xl text-slate-900 leading-tight">
-                        Selamat Datang ke Portal <span class="text-transparent bg-clip-text bg-gradient-to-r from-ubk-600 to-teal-600">Digital UBK!</span>
+                        Selamat Datang ke <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-ubk-600 to-teal-600">Portal e-UBK SK Kebagu</span>
                     </h1>
                     <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
-                        Pusat Henti Setempat (One-Stop Centre) perkhidmatan Bimbingan, Kaunseling, Psikometrik, dan Kesejahteraan Minda Sihat murid-murid. 🎈
+                        Pusat Henti Setempat (One-Stop Centre) Perkhidmatan Bimbingan, Kaunseling, Psikometrik, dan Kesejahteraan Minda Sihat Murid SK Kebagu. 🎈
                     </p>
 
                     <!-- Quick Action Buttons -->
@@ -124,15 +141,108 @@
                 </div>
 
                 <div class="lg:col-span-5 relative">
-                    <div class="bg-white p-6 rounded-3xl shadow-xl border-4 border-emerald-100 space-y-4 text-center">
+                    <div class="bg-white p-6 rounded-3xl shadow-xl border-4 border-emerald-100 space-y-4 text-center relative">
                         <div class="w-16 h-16 bg-yellow-100 text-3xl rounded-2xl mx-auto flex items-center justify-center">
                             📢
                         </div>
-                        <h3 class="font-heading font-bold text-xl text-slate-900">Sudut Info UBK Minggu Ini</h3>
-                        <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-left space-y-1">
-                            <span class="text-[11px] font-bold text-ubk-700 bg-ubk-200 px-2.5 py-0.5 rounded-full">KEMPEN MINDA SIHAT</span>
-                            <h4 class="font-heading font-bold text-sm text-slate-800">Senyum & Kawal Emosi!</h4>
-                            <p class="text-xs text-slate-600">Jom ambil Ujian Minda Sihat kendiri di bahagian bawah untuk mengetahui tahap keceriaan anda! 🤝</p>
+                        <h3 class="font-heading font-bold text-xl text-slate-900">Sudut Info UBK SK Kebagu</h3>
+                        
+                        <div id="bulletin-display-box" class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-left space-y-1">
+                            <span id="bulletin-tag-display" class="text-[11px] font-bold text-ubk-700 bg-ubk-200 px-2.5 py-0.5 rounded-full">KEMPEN MINDA SIHAT</span>
+                            <h4 id="bulletin-title-display" class="font-heading font-bold text-sm text-slate-800">Senyum & Kawal Emosi!</h4>
+                            <p id="bulletin-desc-display" class="text-xs text-slate-600">Jom ambil Ujian Minda Sihat kendiri di bahagian bawah untuk mengetahui tahap keceriaan anda! 🤝</p>
+                            <div id="bulletin-file-link" class="pt-2 hidden">
+                                <a id="bulletin-download-btn" href="#" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 hover:underline">
+                                    <i class="fa-solid fa-file-arrow-down"></i> <span id="bulletin-file-name">Muat Turun Fail Info</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Admin Edit Info Button -->
+                        <button onclick="openInfoEditorModal()" class="admin-only hidden bg-amber-500 hover:bg-amber-600 text-slate-900 font-heading font-bold px-4 py-2 rounded-xl text-xs transition w-full">
+                            ✏️ Edit Info Bulletin / Upload Fail Info
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFIL GURU BIMBINGAN DAN KAUNSELING (TUNGGAL) -->
+    <section id="profil" class="py-14 bg-white border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">Guru Bimbingan & Kaunseling</span>
+                <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Profil GBK SK Kebagu</h3>
+                <p class="text-slate-600 text-sm mt-1">Sentiasa sedia mendengar, membimbing, dan menjaga kesejahteraan anda.</p>
+            </div>
+
+            <!-- Single GBK Profile Card -->
+            <div class="max-w-xl mx-auto bg-emerald-50/50 border-2 border-emerald-200 rounded-3xl p-8 text-center shadow-sm hover:shadow-md transition">
+                <div class="w-36 h-36 rounded-full bg-emerald-200 mx-auto mb-4 overflow-hidden border-4 border-white shadow-md">
+                    <img id="gbk1-img" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80" alt="GBK SK Kebagu" class="w-full h-full object-cover">
+                </div>
+                <h4 id="gbk1-name" class="font-heading font-bold text-slate-900 text-2xl">Cikgu Kaunseling SK Kebagu</h4>
+                <p id="gbk1-role" class="text-xs text-ubk-700 font-bold mb-2">Guru Bimbingan & Kaunseling Sepenuh Masa</p>
+                <p id="gbk1-focus" class="text-xs text-slate-600 mb-6">Fokus: Pembangunan Sahsiah, Kesejahteraan Emosi, Ujian Psikometrik (T4, T5, T6), & E-Kaunseling</p>
+                
+                <div class="space-y-3">
+                    <a href="#temujanji" class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-heading font-bold bg-ubk-600 text-white hover:bg-ubk-700 transition shadow-md">
+                        💬 Buat Temu Janji Sesi Kaunseling
+                    </a>
+                    <br>
+                    <button onclick="openGbkEditorModal(1)" class="admin-only hidden bg-amber-400 hover:bg-amber-500 text-slate-900 font-heading font-bold px-4 py-2 rounded-xl text-xs mt-2">
+                        🖼️ Muat Naik Foto / Edit Info GBK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATISTIK SESI KAUNSELING -->
+    <section id="statistik" class="py-12 bg-gradient-to-r from-teal-600 to-emerald-700 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-8">
+                <span class="bg-white/20 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Pencapaian Perkhidmatan</span>
+                <h3 class="font-heading font-bold text-3xl mt-2">Jumlah Sesi Kaunseling Dilaksanakan</h3>
+                <p class="text-emerald-100 text-sm">Rekod rasmi sesi bimbingan dan kaunseling yang telah diselesaikan di SK Kebagu.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <!-- Sesi Individu Card -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 text-center relative space-y-3">
+                    <div class="w-14 h-14 bg-amber-400 text-slate-900 rounded-2xl flex items-center justify-center text-2xl mx-auto font-bold shadow-md">
+                        👤
+                    </div>
+                    <h4 class="font-heading font-bold text-xl">Sesi Kaunseling Individu</h4>
+                    <div class="text-5xl font-heading font-extrabold text-amber-300 py-1" id="count-individu-display">48</div>
+                    <p class="text-xs text-emerald-100">Sesi Bersemuka & Atas Talian</p>
+
+                    <!-- Admin Edit Controls for Sesi Individu -->
+                    <div class="admin-only hidden pt-3 border-t border-white/20 space-y-2">
+                        <div class="flex items-center justify-center gap-2">
+                            <button onclick="updateSessionCount('individu', -1)" class="bg-rose-500 hover:bg-rose-600 text-white font-bold w-8 h-8 rounded-lg text-lg">-</button>
+                            <input type="number" id="input-individu-count" value="48" onchange="setManualSessionCount('individu')" class="w-20 bg-white text-slate-900 font-bold text-center rounded-lg text-sm py-1">
+                            <button onclick="updateSessionCount('individu', 1)" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold w-8 h-8 rounded-lg text-lg">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sesi Kelompok Card -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 text-center relative space-y-3">
+                    <div class="w-14 h-14 bg-sky-400 text-slate-900 rounded-2xl flex items-center justify-center text-2xl mx-auto font-bold shadow-md">
+                        👥
+                    </div>
+                    <h4 class="font-heading font-bold text-xl">Sesi Kaunseling Kelompok</h4>
+                    <div class="text-5xl font-heading font-extrabold text-sky-300 py-1" id="count-kelompok-display">26</div>
+                    <p class="text-xs text-emerald-100">Bimbingan Kumpulan & Bimbingan Rakan Sebaya</p>
+
+                    <!-- Admin Edit Controls for Sesi Kelompok -->
+                    <div class="admin-only hidden pt-3 border-t border-white/20 space-y-2">
+                        <div class="flex items-center justify-center gap-2">
+                            <button onclick="updateSessionCount('kelompok', -1)" class="bg-rose-500 hover:bg-rose-600 text-white font-bold w-8 h-8 rounded-lg text-lg">-</button>
+                            <input type="number" id="input-kelompok-count" value="26" onchange="setManualSessionCount('kelompok')" class="w-20 bg-white text-slate-900 font-bold text-center rounded-lg text-sm py-1">
+                            <button onclick="updateSessionCount('kelompok', 1)" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold w-8 h-8 rounded-lg text-lg">+</button>
                         </div>
                     </div>
                 </div>
@@ -140,39 +250,61 @@
         </div>
     </section>
 
-    <!-- PROFIL GURU BIMBINGAN DAN KAUNSELING -->
-    <section id="profil" class="py-14 bg-white border-y border-slate-200">
+    <!-- GALERI AKTIVITI & PROGRAM UBK -->
+    <section id="galeri" class="py-14 bg-emerald-50/30 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-10">
-                <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">Barisan GBK</span>
-                <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Carta Organisasi UBK</h3>
-                <p class="text-slate-600 text-sm mt-1">Cikgu Kaunseling sentiasa sedia membantu dan mendengar masalah anda.</p>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">Album UBK SK Kebagu</span>
+                    <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Galeri Aktiviti & Program</h3>
+                    <p class="text-slate-600 text-sm mt-1">Imbauan kenangan program Bimbingan, Sahsiah, dan Minda Sihat sekolah.</p>
+                </div>
+                
+                <!-- Admin Add Photo Button -->
+                <button onclick="openGalleryUploadModal()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold px-4 py-2.5 rounded-2xl text-xs transition shadow-md mt-4 md:mt-0 flex items-center gap-2">
+                    📸 + Muat Naik Program Baharu
+                </button>
             </div>
 
-            <!-- GBK Team Cards -->
-            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="bg-emerald-50/50 border-2 border-emerald-200 rounded-3xl p-6 text-center shadow-sm hover:shadow-md transition">
-                    <div class="w-28 h-28 rounded-full bg-emerald-200 mx-auto mb-4 overflow-hidden border-4 border-white shadow-md">
-                        <img src="https://placehold.co/200x200/16a34a/ffffff?text=Cikgu+Ahmad" alt="GBK 1" class="w-full h-full object-cover">
+            <!-- Dynamic Gallery Grid -->
+            <div id="gallery-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-card bg-white rounded-3xl overflow-hidden border-2 border-slate-200 shadow-sm hover:shadow-md transition relative">
+                    <button onclick="removeGalleryCard(this)" class="admin-only hidden absolute top-3 right-3 bg-rose-600 text-white rounded-full w-8 h-8 font-bold text-xs shadow-md z-10 hover:bg-rose-700" title="Buang Elemen">🗑️</button>
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&auto=format&fit=crop&q=80" alt="Kempen Minda Sihat" class="w-full h-full object-cover">
                     </div>
-                    <h4 class="font-heading font-bold text-slate-900 text-xl">Encik Ahmad Bin Razali</h4>
-                    <p class="text-xs text-ubk-700 font-bold mb-2">Guru Bimbingan & Kaunseling (Tahap 2)</p>
-                    <p class="text-xs text-slate-600 mb-4">Fokus: Psikometrik Tahun 4 & 6, Sahsiah & Kerjaya</p>
-                    <a href="#temujanji" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-heading font-bold bg-ubk-600 text-white hover:bg-ubk-700 transition">
-                        💬 Hubungi Cikgu Ahmad
-                    </a>
+                    <div class="p-4">
+                        <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-md">PROGRAM TERKINI</span>
+                        <h4 class="font-heading font-bold text-slate-900 text-base mt-1">Pelancaran Kempen Minda Sihat SK Kebagu</h4>
+                        <p class="text-xs text-slate-500 mt-1">Aktiviti senam seni dan ekspresi emosi bersama murid Tahap 1 & 2.</p>
+                    </div>
                 </div>
 
-                <div class="bg-teal-50/50 border-2 border-teal-200 rounded-3xl p-6 text-center shadow-sm hover:shadow-md transition">
-                    <div class="w-28 h-28 rounded-full bg-teal-200 mx-auto mb-4 overflow-hidden border-4 border-white shadow-md">
-                        <img src="https://placehold.co/200x200/0d9488/ffffff?text=Cikgu+Siti" alt="GBK 2" class="w-full h-full object-cover">
+                <!-- Gallery Item 2 -->
+                <div class="gallery-card bg-white rounded-3xl overflow-hidden border-2 border-slate-200 shadow-sm hover:shadow-md transition relative">
+                    <button onclick="removeGalleryCard(this)" class="admin-only hidden absolute top-3 right-3 bg-rose-600 text-white rounded-full w-8 h-8 font-bold text-xs shadow-md z-10 hover:bg-rose-700" title="Buang Elemen">🗑️</button>
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&auto=format&fit=crop&q=80" alt="Watikah PRS" class="w-full h-full object-cover">
                     </div>
-                    <h4 class="font-heading font-bold text-slate-900 text-xl">Puan Siti Aminah Binti Ali</h4>
-                    <p class="text-xs text-teal-700 font-bold mb-2">Guru Bimbingan & Kaunseling (Tahap 1 & Transisi)</p>
-                    <p class="text-xs text-slate-600 mb-4">Fokus: Sudut Minda Sihat, IKP Tahun 5 & PRS Muda</p>
-                    <a href="#temujanji" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-heading font-bold bg-teal-600 text-white hover:bg-teal-700 transition">
-                        💬 Hubungi Cikgu Siti
-                    </a>
+                    <div class="p-4">
+                        <span class="text-[10px] font-bold bg-sky-100 text-sky-800 px-2 py-0.5 rounded-md">SAHSIAH</span>
+                        <h4 class="font-heading font-bold text-slate-900 text-base mt-1">Watikah Pelantikan PRS Muda</h4>
+                        <p class="text-xs text-slate-500 mt-1">Penyerahan sijil dan lencana Pembimbing Rakan Sebaya sekolah.</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 3 -->
+                <div class="gallery-card bg-white rounded-3xl overflow-hidden border-2 border-slate-200 shadow-sm hover:shadow-md transition relative">
+                    <button onclick="removeGalleryCard(this)" class="admin-only hidden absolute top-3 right-3 bg-rose-600 text-white rounded-full w-8 h-8 font-bold text-xs shadow-md z-10 hover:bg-rose-700" title="Buang Elemen">🗑️</button>
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80" alt="Ceramah Kerjaya" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <span class="text-[10px] font-bold bg-purple-100 text-purple-800 px-2 py-0.5 rounded-md">KERJAYA</span>
+                        <h4 class="font-heading font-bold text-slate-900 text-base mt-1">Eksplorasi Minat & Cita-Cita</h4>
+                        <p class="text-xs text-slate-500 mt-1">Bengkel motivasi penerokaan kerjaya murid Tahun 6 SK Kebagu.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -181,31 +313,42 @@
     <!-- 4 FOKUS UTAMA UBK SEKOLAH RENDAH -->
     <section id="fokus" class="py-14 bg-amber-50/40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-10">
-                <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">Perkhidmatan Utama</span>
-                <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">4 Fokus Bimbingan UBK</h3>
+            <div class="flex flex-col md:flex-row justify-between items-center mb-10">
+                <div class="text-center md:text-left">
+                    <span class="text-xs font-bold uppercase tracking-wider text-ubk-600 bg-emerald-100 px-3 py-1 rounded-full">Perkhidmatan Utama</span>
+                    <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">4 Fokus Bimbingan UBK SK Kebagu</h3>
+                </div>
+
+                <!-- Admin Add Focus Item Button -->
+                <button onclick="openAddFocusModal()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold px-4 py-2 rounded-2xl text-xs transition shadow-md mt-4 md:mt-0">
+                    ➕ Tambah Elemen Fokus UBK
+                </button>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-6 rounded-3xl border-2 border-emerald-100 shadow-sm text-center">
+            <div id="fokus-container" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="fokus-card bg-white p-6 rounded-3xl border-2 border-emerald-100 shadow-sm text-center relative">
+                    <button onclick="removeElementCard(this)" class="admin-only hidden absolute top-3 right-3 text-rose-500 hover:text-rose-700 font-bold text-xs" title="Buang Elemen">🗑️</button>
                     <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-2xl flex items-center justify-center mx-auto mb-3">🌱</div>
                     <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">1. Sahsiah & Disiplin</h4>
                     <p class="text-xs text-slate-600 leading-relaxed">Pembentukan watak terpuji, adab sopan, dan amalan baik SSDM.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl border-2 border-sky-100 shadow-sm text-center">
+                <div class="fokus-card bg-white p-6 rounded-3xl border-2 border-sky-100 shadow-sm text-center relative">
+                    <button onclick="removeElementCard(this)" class="admin-only hidden absolute top-3 right-3 text-rose-500 hover:text-rose-700 font-bold text-xs" title="Buang Elemen">🗑️</button>
                     <div class="w-14 h-14 rounded-2xl bg-sky-100 text-2xl flex items-center justify-center mx-auto mb-3">🚀</div>
                     <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">2. Disiplin & Kerohanian</h4>
                     <p class="text-xs text-slate-600 leading-relaxed">Kempen kehadiran 100%, pembinaan jati diri, dan ketahanan mental.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl border-2 border-purple-100 shadow-sm text-center">
+                <div class="fokus-card bg-white p-6 rounded-3xl border-2 border-purple-100 shadow-sm text-center relative">
+                    <button onclick="removeElementCard(this)" class="admin-only hidden absolute top-3 right-3 text-rose-500 hover:text-rose-700 font-bold text-xs" title="Buang Elemen">🗑️</button>
                     <div class="w-14 h-14 rounded-2xl bg-purple-100 text-2xl flex items-center justify-center mx-auto mb-3">🎓</div>
                     <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">3. Kerjaya & Akademik</h4>
                     <p class="text-xs text-slate-600 leading-relaxed">Penerokaan cita-cita, minat akademik, & persediaan ke sekolah menengah.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl border-2 border-amber-100 shadow-sm text-center">
+                <div class="fokus-card bg-white p-6 rounded-3xl border-2 border-amber-100 shadow-sm text-center relative">
+                    <button onclick="removeElementCard(this)" class="admin-only hidden absolute top-3 right-3 text-rose-500 hover:text-rose-700 font-bold text-xs" title="Buang Elemen">🗑️</button>
                     <div class="w-14 h-14 rounded-2xl bg-amber-100 text-2xl flex items-center justify-center mx-auto mb-3">❤️</div>
                     <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">4. Kesejahteraan Mental</h4>
                     <p class="text-xs text-slate-600 leading-relaxed">Pengurusan emosi, keceriaan minda, & intervensi psikososial murid.</p>
@@ -220,39 +363,60 @@
             <div class="text-center max-w-3xl mx-auto mb-10">
                 <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold uppercase tracking-wider">Pentaksiran Psikometrik (PPSI)</span>
                 <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Inventori & Ujian Psikometrik Murid</h3>
-                <p class="text-slate-600 text-sm mt-1">Pilih mengikut tingkatan/tahun anda untuk menjawab ujian kendiri atau melihat analisis data.</p>
+                <p class="text-slate-600 text-sm mt-1">Jawab borang soalan psikometrik atau muat turun fail inventori rasmi UBK SK Kebagu.</p>
             </div>
 
             <!-- Ujian Links Grid -->
             <div class="grid md:grid-cols-3 gap-6 mb-12">
                 <!-- Tahun 4 -->
-                <div class="bg-gradient-to-br from-sky-50 to-blue-50 border-2 border-sky-200 rounded-3xl p-6 space-y-4">
+                <div class="bg-gradient-to-br from-sky-50 to-blue-50 border-2 border-sky-200 rounded-3xl p-6 space-y-4 relative">
                     <span class="text-xs font-bold bg-sky-200 text-sky-800 px-3 py-1 rounded-full">TAHUN 4</span>
                     <h4 class="font-heading font-bold text-xl text-slate-900">Inventori Aptitud Tahun 4 (IAT4)</h4>
                     <p class="text-xs text-slate-600">Mengenal pasti kebolehan mental & kemahiran persepsi awal murid.</p>
-                    <button onclick="alert('Membuka Borang Inventori Aptitud Tahun 4...')" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
-                        📝 Jawab Ujian Aptitud T4
-                    </button>
+                    
+                    <div class="space-y-2">
+                        <a id="psiko-t4-link" href="#" target="_blank" onclick="handleQuizOrFileClick('T4', event)" class="block w-full text-center bg-sky-600 hover:bg-sky-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
+                            📝 Jawab Ujian / Muat Turun Fail T4
+                        </a>
+                        <!-- Admin Update File for T4 -->
+                        <button onclick="openSectionFileUploadModal('psikometrik_t4')" class="admin-only hidden w-full bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold py-1.5 rounded-lg text-xs">
+                            📂 Upload Fail / Soalan Baharu (Word/PDF/Excel)
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Tahun 5 -->
-                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 rounded-3xl p-6 space-y-4">
+                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 rounded-3xl p-6 space-y-4 relative">
                     <span class="text-xs font-bold bg-purple-200 text-purple-800 px-3 py-1 rounded-full">TAHUN 5</span>
                     <h4 class="font-heading font-bold text-xl text-slate-900">Inventori Kecerdasan Pelbagai (IKP)</h4>
                     <p class="text-xs text-slate-600">Mengukur 9 domain kecerdasan (Verbal, Visual, Logik, Muzik, Kinestetik, dll).</p>
-                    <button onclick="alert('Membuka Borang Inventori Kecerdasan Pelbagai Tahun 5...')" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
-                        📝 Jawab Ujian IKP T5
-                    </button>
+                    
+                    <div class="space-y-2">
+                        <a id="psiko-t5-link" href="#" target="_blank" onclick="handleQuizOrFileClick('T5', event)" class="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
+                            📝 Jawab Ujian / Muat Turun Fail T5
+                        </a>
+                        <!-- Admin Update File for T5 -->
+                        <button onclick="openSectionFileUploadModal('psikometrik_t5')" class="admin-only hidden w-full bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold py-1.5 rounded-lg text-xs">
+                            📂 Upload Fail / Soalan Baharu (Word/PDF/Excel)
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Tahun 6 -->
-                <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-3xl p-6 space-y-4">
+                <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-3xl p-6 space-y-4 relative">
                     <span class="text-xs font-bold bg-emerald-200 text-emerald-800 px-3 py-1 rounded-full">TAHUN 6</span>
                     <h4 class="font-heading font-bold text-xl text-slate-900">Inventori Aptitud & Minat Kerjaya (IAT6)</h4>
                     <p class="text-xs text-slate-600">Persediaan kecenderungan bidang & kesediaan ke Sekolah Menengah.</p>
-                    <button onclick="alert('Membuka Borang Inventori Aptitud & Kerjaya Tahun 6...')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
-                        📝 Jawab Ujian Aptitud T6
-                    </button>
+                    
+                    <div class="space-y-2">
+                        <a id="psiko-t6-link" href="#" target="_blank" onclick="handleQuizOrFileClick('T6', event)" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl text-xs transition">
+                            📝 Jawab Ujian / Muat Turun Fail T6
+                        </a>
+                        <!-- Admin Update File for T6 -->
+                        <button onclick="openSectionFileUploadModal('psikometrik_t6')" class="admin-only hidden w-full bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold py-1.5 rounded-lg text-xs">
+                            📂 Upload Fail / Soalan Baharu (Word/PDF/Excel)
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -260,9 +424,12 @@
             <div class="bg-slate-50 border-2 border-slate-200 rounded-3xl p-6 sm:p-8">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                     <div>
-                        <h4 class="font-heading font-bold text-xl text-slate-900">📊 Analisis Data Psikometrik Sekolah</h4>
+                        <h4 class="font-heading font-bold text-xl text-slate-900">📊 Analisis Data Psikometrik SK Kebagu</h4>
                         <p class="text-xs text-slate-500">Ringkasan Kecenderungan Kecerdasan Pelbagai Murid Tahap 2</p>
                     </div>
+                    <button onclick="openSectionFileUploadModal('psikometrik_chart_data')" class="admin-only hidden bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold px-3 py-2 rounded-xl text-xs">
+                        📂 Upload Fail Data Analisis Baharu (Excel/PDF)
+                    </button>
                 </div>
                 <div class="h-64 relative">
                     <canvas id="psikometrikChart"></canvas>
@@ -276,7 +443,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-10">
                 <span class="px-3 py-1 rounded-full bg-amber-200 text-amber-900 text-xs font-bold uppercase tracking-wider">Kesihatan Mental & Emosi</span>
-                <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Sudut Minda Sihat</h3>
+                <h3 class="font-heading font-bold text-3xl text-slate-900 mt-2">Sudut Minda Sihat SK Kebagu</h3>
                 <p class="text-slate-600 text-sm mt-1">Ukur tahap kesejahteraan emosi anda dan lihat laporan analisis perbandingan sekolah.</p>
             </div>
 
@@ -293,7 +460,7 @@
                     <div class="space-y-3 pt-2">
                         <div class="p-3 bg-amber-50 rounded-2xl border border-amber-200 text-xs">
                             <span class="font-bold text-amber-900 block">Langkah 1:</span>
-                            Tekan butang mulakan ujian di bawah.
+                            Tekan butang mulakan ujian atau muat turun borang soalan di bawah.
                         </div>
                         <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs">
                             <span class="font-bold text-emerald-900 block">Langkah 2:</span>
@@ -301,16 +468,20 @@
                         </div>
                     </div>
 
-                    <button onclick="alert('Membuka Borang Ujian Saringan Minda Sihat Digital...')" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-heading font-bold py-3 rounded-2xl text-sm transition shadow-md">
-                        🌈 Mulakan Ujian Minda Sihat
+                    <a id="minda-sihat-quiz-link" href="#" onclick="handleQuizOrFileClick('MindaSihat', event)" class="block w-full text-center bg-amber-500 hover:bg-amber-600 text-slate-900 font-heading font-bold py-3 rounded-2xl text-sm transition shadow-md">
+                        🌈 Mulakan Ujian Minda Sihat / Muat Turun Fail
+                    </a>
+
+                    <!-- Admin Upload File for Minda Sihat -->
+                    <button onclick="openSectionFileUploadModal('minda_sihat')" class="admin-only hidden w-full bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold py-2 rounded-xl text-xs">
+                        📂 Upload Fail Soalan Minda Sihat (Word/PDF/Excel)
                     </button>
                 </div>
 
-                <!-- ANALISIS MINDA SIHAT (BERDASARKAN KELAS DAN JANTINA) -->
+                <!-- ANALISIS MINDA SIHAT -->
                 <div class="lg:col-span-7 bg-white border-2 border-slate-200 rounded-3xl p-6 space-y-4">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <h4 class="font-heading font-bold text-lg text-slate-900">📈 Analisis Minda Sihat Sekolah</h4>
-                        <!-- Filter drop downs -->
                         <div class="flex items-center gap-2 text-xs">
                             <select id="chart-filter" onchange="updateMindaChart()" class="bg-slate-100 border border-slate-300 rounded-lg px-2.5 py-1.5 font-bold focus:outline-none">
                                 <option value="jantina">Mengikut Jantina</option>
@@ -318,11 +489,15 @@
                             </select>
                         </div>
                     </div>
-                    <p class="text-xs text-slate-500">Statistik status kesejahteraan emosi murid (Sejahtera vs Perlukan Bimbingan).</p>
+                    <p class="text-xs text-slate-500">Statistik status kesejahteraan emosi murid SK Kebagu (Sejahtera vs Perlukan Bimbingan).</p>
                     
                     <div class="h-64 relative">
                         <canvas id="mindaSihatChart"></canvas>
                     </div>
+
+                    <button onclick="openSectionFileUploadModal('minda_sihat_chart_data')" class="admin-only hidden bg-slate-800 hover:bg-slate-900 text-amber-300 font-heading font-bold px-3 py-1.5 rounded-xl text-xs w-full">
+                        📂 Upload Fail Laporan Analisis Minda Sihat (PDF/Excel)
+                    </button>
                 </div>
             </div>
         </div>
@@ -380,16 +555,15 @@
                 <!-- Feedback Toast -->
                 <div id="booking-success" class="hidden mt-4 p-4 rounded-2xl bg-emerald-100 text-emerald-800 text-sm font-bold flex items-center gap-2">
                     <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
-                    Permohonan temu janji berjaya dihantar! Guru Bimbingan dan Kaunseling akan menghubungi anda. 😊
+                    Permohonan temu janji berjaya dihantar! Guru Bimbingan dan Kaunseling SK Kebagu akan menghubungi anda. 😊
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- KOTAK LUAHAN ANONYMOUS & TALIAN KRISIS -->
+    <!-- KOTAK LUAHAN ANONYMOUS -->
     <section class="py-12 bg-white border-t border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            <!-- Anonymous Box Banner -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-gradient-to-r from-teal-500 to-emerald-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="space-y-2 text-center md:text-left">
                     <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">🔒 Rahsia Tanpa Nama</span>
@@ -400,24 +574,95 @@
                     🤫 Tulis Luahan Rahsia
                 </button>
             </div>
+        </div>
+    </section>
 
-            <!-- Helpline Grid -->
-            <div class="bg-slate-50 border border-slate-200 rounded-3xl p-6 text-center">
-                <h4 class="font-heading font-bold text-slate-900 mb-4">☎️ Talian Krisis Kesihatan Mental & Bantuan (24 Jam)</h4>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-bold">
-                    <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
-                        <span class="text-emerald-600 block text-base">Talian HEAL KKM</span>
-                        <span class="text-slate-800 text-sm">📞 15555</span>
+    <!-- PUSAT DATA MURID SEKOLAH (ADMIN ONLY PRIVATE DATA CENTER) -->
+    <section id="admin-data-center" class="admin-only hidden py-14 bg-slate-900 text-slate-100 border-t-4 border-amber-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold uppercase tracking-wider">
+                        🔒 PRIVASI & SULIT: GBK SAHAJA
                     </div>
-                    <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
-                        <span class="text-sky-600 block text-base">Talian Kasih</span>
-                        <span class="text-slate-800 text-sm">📞 15999 / WhatsApp 019-2615999</span>
-                    </div>
-                    <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
-                        <span class="text-purple-600 block text-base">Befrienders KL</span>
-                        <span class="text-slate-800 text-sm">📞 03-76272929</span>
-                    </div>
+                    <h3 class="font-heading font-bold text-2xl text-white mt-1">Pusat Data Murid SK Kebagu</h3>
+                    <p class="text-slate-400 text-xs">Muat naik fail Excel (.xlsx / .csv) data senarai murid untuk simpanan peribadi GBK.</p>
                 </div>
+
+                <div class="flex items-center gap-3">
+                    <button onclick="downloadExcelTemplate()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-heading font-bold px-3 py-2 rounded-xl text-xs border border-amber-400/30">
+                        📄 Muat Turun Template Excel
+                    </button>
+                    <label class="bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold px-4 py-2 rounded-xl text-xs cursor-pointer shadow-md">
+                        📂 Upload Fail Excel Murid
+                        <input type="file" id="student-excel-input" accept=".xlsx, .xls, .csv" onchange="handleStudentExcelUpload(event)" class="hidden">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Student Data Search & Filter -->
+            <div class="grid md:grid-cols-3 gap-4">
+                <input type="text" id="student-search-input" onkeyup="filterStudentTable()" placeholder="🔍 Cari nama murid atau MyKad..." class="bg-slate-800 border border-slate-700 text-white text-xs rounded-xl p-3 focus:outline-none focus:border-amber-400">
+                <select id="student-class-filter" onchange="filterStudentTable()" class="bg-slate-800 border border-slate-700 text-white text-xs rounded-xl p-3 focus:outline-none focus:border-amber-400">
+                    <option value="">Semua Kelas</option>
+                    <option value="Tahun 1">Tahun 1</option>
+                    <option value="Tahun 2">Tahun 2</option>
+                    <option value="Tahun 3">Tahun 3</option>
+                    <option value="Tahun 4">Tahun 4</option>
+                    <option value="Tahun 5">Tahun 5</option>
+                    <option value="Tahun 6">Tahun 6</option>
+                </select>
+                <div class="text-right text-xs text-slate-400 flex items-center justify-end font-bold">
+                    Jumlah Rekod: <span id="student-record-count" class="text-amber-300 ml-1">3</span>
+                </div>
+            </div>
+
+            <!-- Student Table -->
+            <div class="overflow-x-auto bg-slate-800 border border-slate-700 rounded-2xl shadow-xl">
+                <table class="w-full text-left text-xs text-slate-300">
+                    <thead class="bg-slate-950 text-amber-300 font-heading uppercase text-[11px] border-b border-slate-700">
+                        <tr>
+                            <th class="p-3.5">Bil</th>
+                            <th class="p-3.5">Nama Murid</th>
+                            <th class="p-3.5">Kelas</th>
+                            <th class="p-3.5">Jantina</th>
+                            <th class="p-3.5">Status Psikometrik / Catatan GBK</th>
+                            <th class="p-3.5 text-center">Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="student-table-body" class="divide-y divide-slate-700/60">
+                        <tr>
+                            <td class="p-3.5">1</td>
+                            <td class="p-3.5 font-bold text-white">Ahmad Zaki Bin Rosli</td>
+                            <td class="p-3.5">4 Cemerlang</td>
+                            <td class="p-3.5">Lelaki</td>
+                            <td class="p-3.5"><span class="bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded">IAT4 Selesai</span></td>
+                            <td class="p-3.5 text-center">
+                                <button onclick="deleteStudentRow(this)" class="text-rose-400 hover:text-rose-300 font-bold">🗑️ Padam</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5">2</td>
+                            <td class="p-3.5 font-bold text-white">Nur Aisyah Binti Mohd Haris</td>
+                            <td class="p-3.5">5 Bijak</td>
+                            <td class="p-3.5">Perempuan</td>
+                            <td class="p-3.5"><span class="bg-purple-900/60 text-purple-300 px-2 py-0.5 rounded">IKP T5 Selesai</span></td>
+                            <td class="p-3.5 text-center">
+                                <button onclick="deleteStudentRow(this)" class="text-rose-400 hover:text-rose-300 font-bold">🗑️ Padam</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5">3</td>
+                            <td class="p-3.5 font-bold text-white">Mohd Irfan Bin Safwan</td>
+                            <td class="p-3.5">6 Pintar</td>
+                            <td class="p-3.5">Lelaki</td>
+                            <td class="p-3.5"><span class="bg-sky-900/60 text-sky-300 px-2 py-0.5 rounded">Perlukan Sesi Susulan</span></td>
+                            <td class="p-3.5 text-center">
+                                <button onclick="deleteStudentRow(this)" class="text-rose-400 hover:text-rose-300 font-bold">🗑️ Padam</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
@@ -426,10 +671,10 @@
     <footer class="bg-slate-900 text-slate-400 py-8 text-xs border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
             <div class="flex justify-center items-center space-x-2">
-                <span class="text-xl">🌟</span>
-                <span class="font-heading font-bold text-slate-200 text-base">Unit Bimbingan & Kaunseling Sekolah Rendah</span>
+                <span class="text-xl">🏫</span>
+                <span class="font-heading font-bold text-slate-200 text-base">Portal e-UBK SK Kebagu</span>
             </div>
-            <p>© 2026 e-UBK. Hak Cipta Terpelihara. "Anak Yang Baik Lagi Cerdik (ABC)".</p>
+            <p>© 2026 Unit Bimbingan & Kaunseling SK Kebagu. Hak Cipta Terpelihara. "Anak Yang Baik Lagi Cerdik (ABC)".</p>
         </div>
     </footer>
 
@@ -452,12 +697,220 @@
         </div>
     </div>
 
+    <!-- MODAL: ADD ELEMEN FOKUS UBK -->
+    <div id="add-focus-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <h4 class="font-heading font-bold text-slate-900 text-lg">➕ Tambah Elemen Fokus UBK Baharu</h4>
+                <button onclick="closeAddFocusModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form onsubmit="handleAddFocus(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Emoji / Icon (Contoh: 🌟, 🎯, 📚)</label>
+                    <input type="text" id="focus-emoji-input" placeholder="🌟" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-center text-lg" required>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Tajuk Fokus</label>
+                    <input type="text" id="focus-title-input" placeholder="Contoh: 5. Program Transisi Tahun 1" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold" required>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Keterangan Ringkas</label>
+                    <textarea id="focus-desc-input" rows="3" placeholder="Penerangan ringkas..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5" required></textarea>
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl transition text-sm">
+                    + Tambah Ke Senarai Fokus UBK
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: UPLOAD GALLERY PHOTO -->
+    <div id="gallery-upload-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <h4 class="font-heading font-bold text-slate-900 text-lg">📸 Muat Naik Gambar Program</h4>
+                <button onclick="closeGalleryUploadModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form onsubmit="handleGalleryUpload(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Fail Gambar Dari Komputer/Telefon</label>
+                    <input type="file" id="gallery-file-input" accept="image/*" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-xl p-2" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Kategori / Tag Program</label>
+                    <input type="text" id="gallery-tag-input" placeholder="Contoh: SAHSIAH / KERJAYA" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-xl p-2.5" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Tajuk Program</label>
+                    <input type="text" id="gallery-title-input" placeholder="Contoh: Pelancaran Kempen Anti Buli" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-xl p-2.5" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Keterangan Ringkas</label>
+                    <textarea id="gallery-desc-input" rows="2" placeholder="Penerangan ringkas mengenai aktiviti ini..." class="w-full text-xs bg-slate-50 border border-slate-300 rounded-xl p-2.5" required></textarea>
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl text-sm transition">
+                    + Tambah Gambar Ke Galeri
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIT GBK PROFILE -->
+    <div id="gbk-editor-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <h4 class="font-heading font-bold text-slate-900 text-lg">🖼️ Edit Profil & Foto GBK SK Kebagu</h4>
+                <button onclick="closeGbkEditorModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form onsubmit="handleGbkSave(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Muat Naik Foto Baharu GBK (JPG / PNG)</label>
+                    <input type="file" id="gbk-file-input" accept="image/*" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Nama Penuh Guru</label>
+                    <input type="text" id="gbk-name-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold" required>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Jawatan / Peranan</label>
+                    <input type="text" id="gbk-role-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5" required>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Fokus Bimbingan</label>
+                    <input type="text" id="gbk-focus-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5" required>
+                </div>
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-heading font-bold py-2.5 rounded-xl transition text-sm">
+                    💾 Simpan Perubahan Profil GBK
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIT INFO BULLETIN & ATTACH FILE -->
+    <div id="info-editor-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <h4 class="font-heading font-bold text-slate-900 text-lg">✏️ Edit Bulletin & Upload Fail Info</h4>
+                <button onclick="closeInfoEditorModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form onsubmit="handleInfoSave(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Kategori Tag</label>
+                    <input type="text" id="bulletin-tag-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5" required>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Tajuk Pengumuman</label>
+                    <input type="text" id="bulletin-title-input" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold" required>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Ringkasan Mesej Info</label>
+                    <textarea id="bulletin-desc-input" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5" required></textarea>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Upload Fail Terlampir (Word / PDF / Excel / Gambar)</label>
+                    <input type="file" id="bulletin-file-input" accept=".pdf,.doc,.docx,.xlsx,.xls,.jpg,.png" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl transition text-sm">
+                    💾 Kemas Kini Pengumuman & Fail
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: UNIVERSAL SECTION FILE UPLOADER -->
+    <div id="section-file-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-100">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <h4 class="font-heading font-bold text-slate-900 text-lg" id="modal-section-title">📂 Muat Naik Fail Baharu</h4>
+                <button onclick="closeSectionFileUploadModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form onsubmit="handleSectionFileUpload(event)" class="space-y-4 text-xs">
+                <div class="p-3 bg-amber-50 rounded-2xl border border-amber-200">
+                    <span class="font-bold text-amber-900 block mb-1">💡 Petua Format Fail:</span>
+                    <p class="text-slate-600">Anda boleh muat naik fail **Word (.docx)**, **PDF (.pdf)**, **Excel (.xlsx)**, atau **Gambar (.jpg/.png)** untuk menukar borang soalan atau analisis data pada bahagian ini.</p>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Pilih Fail Dari Komputer/Telefon</label>
+                    <input type="file" id="universal-file-input" accept=".pdf,.doc,.docx,.xlsx,.xls,.jpg,.png" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2" required>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Label Butang Paparan (Optional)</label>
+                    <input type="text" id="file-label-input" placeholder="Contoh: Muat Turun Soalan Ujian Terbaru" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold py-2.5 rounded-xl transition text-sm">
+                    💾 Kemas Kini Fail Baharu Pada Portal
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- JAVASCRIPT LOGIC & CHART.JS -->
     <script>
+        // ADMIN PASSCODE SYSTEM
+        const ADMIN_PASSCODE = "2002"; // Custom admin passcode
+        let isAdminLoggedIn = false;
+        let activeSectionTarget = "";
+
+        // File store registry (Simulated client-side file storage)
+        const uploadedFilesRegistry = {};
+
+        function promptAdminLogin() {
+            if (isAdminLoggedIn) {
+                alert("Anda sudah pun log masuk sebagai Admin Portal!");
+                return;
+            }
+            const passcode = prompt("Sila masukkan Kod Keselamatan Admin Portal:");
+            if (passcode === ADMIN_PASSCODE) {
+                isAdminLoggedIn = true;
+                alert("Tahniah! Akses Admin Berjaya. Butang penyuntingan & Pusat Data Murid kini dipaparkan di portal anda.");
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+            } else if (passcode !== null) {
+                alert("Kod Keselamatan Salah! Akses Ditolak.");
+            }
+        }
+
         // Mobile Navigation Toggle
         const menuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         menuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+
+        // COUNTER SYSTEM FOR COUNSELING SESSIONS
+        let sessionCountIndividu = 48;
+        let sessionCountKelompok = 26;
+
+        function updateSessionCount(type, delta) {
+            if (type === 'individu') {
+                sessionCountIndividu = Math.max(0, sessionCountIndividu + delta);
+                document.getElementById('count-individu-display').innerText = sessionCountIndividu;
+                document.getElementById('input-individu-count').value = sessionCountIndividu;
+            } else {
+                sessionCountKelompok = Math.max(0, sessionCountKelompok + delta);
+                document.getElementById('count-kelompok-display').innerText = sessionCountKelompok;
+                document.getElementById('input-kelompok-count').value = sessionCountKelompok;
+            }
+        }
+
+        function setManualSessionCount(type) {
+            if (type === 'individu') {
+                const val = parseInt(document.getElementById('input-individu-count').value) || 0;
+                sessionCountIndividu = Math.max(0, val);
+                document.getElementById('count-individu-display').innerText = sessionCountIndividu;
+            } else {
+                const val = parseInt(document.getElementById('input-kelompok-count').value) || 0;
+                sessionCountKelompok = Math.max(0, val);
+                document.getElementById('count-kelompok-display').innerText = sessionCountKelompok;
+            }
+        }
 
         // Booking Form Handling
         function handleBookingSubmit(e) {
@@ -475,33 +928,314 @@
         function sendAnonMessage() {
             const anonText = document.getElementById('anon-text').value;
             if (!anonText.trim()) { alert("Sila tulis luahan anda terlebih dahulu."); return; }
-            alert("Luahan rahsia anda telah berjaya dihantar kepada Cikgu Kaunseling secara selamat!");
+            alert("Luahan rahsia anda telah berjaya dihantar kepada Cikgu Kaunseling SK Kebagu secara selamat!");
             document.getElementById('anon-text').value = '';
             closeAnonModal();
         }
 
-        // --- CHART 1: PSIKOMETRIK CHART ---
-        const ctxPsiko = document.getElementById('psikometrikChart').getContext('2d');
-        new Chart(ctxPsiko, {
-            type: 'bar',
-            data: {
-                labels: ['Verbal-Linguistik', 'Logik-Matematik', 'Visual-Ruang', 'Kinestetik', 'Muzik', 'Interpersonal', 'Intrapersonal'],
-                datasets: [{
-                    label: 'Peratus Kecenderungan Murid (%)',
-                    data: [85, 72, 90, 88, 65, 94, 78],
-                    backgroundColor: '#38bdf8',
-                    borderRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, max: 100 } }
+        // DYNAMIC REMOVE ELEMENT CARDS
+        function removeGalleryCard(btn) {
+            if (confirm("Adakah anda pasti mahu membuang gambar ini dari galeri?")) {
+                btn.closest('.gallery-card').remove();
             }
-        });
+        }
 
-        // --- CHART 2: MINDA SIHAT CHART (WITH DYNAMIC FILTER) ---
+        function removeElementCard(btn) {
+            if (confirm("Adakah anda pasti mahu membuang elemen fokus ini?")) {
+                btn.closest('.fokus-card').remove();
+            }
+        }
+
+        // ADD NEW FOCUS ITEM MODAL
+        function openAddFocusModal() { document.getElementById('add-focus-modal').classList.remove('hidden'); }
+        function closeAddFocusModal() { document.getElementById('add-focus-modal').classList.add('hidden'); }
+        
+        function handleAddFocus(e) {
+            e.preventDefault();
+            const emoji = document.getElementById('focus-emoji-input').value;
+            const title = document.getElementById('focus-title-input').value;
+            const desc = document.getElementById('focus-desc-input').value;
+
+            const container = document.getElementById('fokus-container');
+            const newCardHTML = `
+                <div class="fokus-card bg-white p-6 rounded-3xl border-2 border-emerald-100 shadow-sm text-center relative">
+                    <button onclick="removeElementCard(this)" class="admin-only ${isAdminLoggedIn ? '' : 'hidden'} absolute top-3 right-3 text-rose-500 hover:text-rose-700 font-bold text-xs" title="Buang Elemen">🗑️</button>
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-2xl flex items-center justify-center mx-auto mb-3">${emoji}</div>
+                    <h4 class="font-heading font-bold text-slate-900 text-lg mb-1">${title}</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">${desc}</p>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', newCardHTML);
+            closeAddFocusModal();
+            alert("Elemen Fokus UBK baharu berjaya ditambah!");
+        }
+
+        // UNIVERSAL SECTION FILE UPLOAD SYSTEM
+        function openSectionFileUploadModal(targetKey) {
+            activeSectionTarget = targetKey;
+            document.getElementById('modal-section-title').innerText = `📂 Muat Naik Fail Baharu (${targetKey.toUpperCase()})`;
+            document.getElementById('section-file-modal').classList.remove('hidden');
+        }
+        function closeSectionFileUploadModal() { document.getElementById('section-file-modal').classList.add('hidden'); }
+
+        function handleSectionFileUpload(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('universal-file-input');
+            const customLabel = document.getElementById('file-label-input').value;
+
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                const fileUrl = URL.createObjectURL(file);
+                uploadedFilesRegistry[activeSectionTarget] = {
+                    url: fileUrl,
+                    name: file.name,
+                    label: customLabel || file.name
+                };
+
+                // Update UI button links dynamically
+                if (activeSectionTarget === 'psikometrik_t4') {
+                    const btn = document.getElementById('psiko-t4-link');
+                    btn.href = fileUrl;
+                    btn.innerText = `📄 ${customLabel || 'Muat Turun Fail T4 (' + file.name + ')'}`;
+                } else if (activeSectionTarget === 'psikometrik_t5') {
+                    const btn = document.getElementById('psiko-t5-link');
+                    btn.href = fileUrl;
+                    btn.innerText = `📄 ${customLabel || 'Muat Turun Fail T5 (' + file.name + ')'}`;
+                } else if (activeSectionTarget === 'psikometrik_t6') {
+                    const btn = document.getElementById('psiko-t6-link');
+                    btn.href = fileUrl;
+                    btn.innerText = `📄 ${customLabel || 'Muat Turun Fail T6 (' + file.name + ')'}`;
+                } else if (activeSectionTarget === 'minda_sihat') {
+                    const btn = document.getElementById('minda-sihat-quiz-link');
+                    btn.href = fileUrl;
+                    btn.innerText = `📄 ${customLabel || 'Muat Turun Fail Minda Sihat (' + file.name + ')'}`;
+                }
+
+                closeSectionFileUploadModal();
+                alert(`Fail ${file.name} berjaya dikemaskini pada portal!`);
+            }
+        }
+
+        function handleQuizOrFileClick(type, event) {
+            if (uploadedFilesRegistry[`psikometrik_${type.toLowerCase()}`] || uploadedFilesRegistry['minda_sihat']) {
+                // If a file was uploaded by admin, let default link download occur
+                return true;
+            }
+            event.preventDefault();
+            alert(`Borang Digital ${type} SK Kebagu sedia digunakan. (Cikgu boleh upload fail soalan khas Word/PDF/Excel di bahagian Admin).`);
+        }
+
+        // Gallery Dynamic Upload Logic
+        function openGalleryUploadModal() { document.getElementById('gallery-upload-modal').classList.remove('hidden'); }
+        function closeGalleryUploadModal() { document.getElementById('gallery-upload-modal').classList.add('hidden'); }
+        
+        function handleGalleryUpload(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('gallery-file-input');
+            const tag = document.getElementById('gallery-tag-input').value;
+            const title = document.getElementById('gallery-title-input').value;
+            const desc = document.getElementById('gallery-desc-input').value;
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const imageUrl = evt.target.result;
+                    const galleryContainer = document.getElementById('gallery-container');
+                    
+                    const newItemHTML = `
+                        <div class="gallery-card bg-white rounded-3xl overflow-hidden border-2 border-slate-200 shadow-sm hover:shadow-md transition relative">
+                            <button onclick="removeGalleryCard(this)" class="admin-only ${isAdminLoggedIn ? '' : 'hidden'} absolute top-3 right-3 bg-rose-600 text-white rounded-full w-8 h-8 font-bold text-xs shadow-md z-10 hover:bg-rose-700" title="Buang Elemen">🗑️</button>
+                            <div class="h-48 overflow-hidden">
+                                <img src="${imageUrl}" alt="${title}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-4">
+                                <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md">${tag.toUpperCase()}</span>
+                                <h4 class="font-heading font-bold text-slate-900 text-base mt-1">${title}</h4>
+                                <p class="text-xs text-slate-500 mt-1">${desc}</p>
+                            </div>
+                        </div>
+                    `;
+                    galleryContainer.insertAdjacentHTML('afterbegin', newItemHTML);
+                    closeGalleryUploadModal();
+                    alert("Gambar aktiviti baharu berjaya dimuat naik ke galeri!");
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+        // GBK Profile Editor (Single GBK)
+        function openGbkEditorModal() {
+            document.getElementById('gbk-name-input').value = document.getElementById('gbk1-name').innerText;
+            document.getElementById('gbk-role-input').value = document.getElementById('gbk1-role').innerText;
+            document.getElementById('gbk-focus-input').value = document.getElementById('gbk1-focus').innerText;
+            document.getElementById('gbk-editor-modal').classList.remove('hidden');
+        }
+        function closeGbkEditorModal() { document.getElementById('gbk-editor-modal').classList.add('hidden'); }
+
+        function handleGbkSave(e) {
+            e.preventDefault();
+            const name = document.getElementById('gbk-name-input').value;
+            const role = document.getElementById('gbk-role-input').value;
+            const focus = document.getElementById('gbk-focus-input').value;
+            const fileInput = document.getElementById('gbk-file-input');
+
+            document.getElementById('gbk1-name').innerText = name;
+            document.getElementById('gbk1-role').innerText = role;
+            document.getElementById('gbk1-focus').innerText = focus;
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    document.getElementById('gbk1-img').src = evt.target.result;
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+
+            closeGbkEditorModal();
+            alert("Profil Guru Bimbingan dan Kaunseling SK Kebagu berjaya dikemaskini!");
+        }
+
+        // Info Bulletin Editor with File Attachment
+        function openInfoEditorModal() {
+            document.getElementById('bulletin-tag-input').value = document.getElementById('bulletin-tag-display').innerText;
+            document.getElementById('bulletin-title-input').value = document.getElementById('bulletin-title-display').innerText;
+            document.getElementById('bulletin-desc-input').value = document.getElementById('bulletin-desc-display').innerText;
+            document.getElementById('info-editor-modal').classList.remove('hidden');
+        }
+        function closeInfoEditorModal() { document.getElementById('info-editor-modal').classList.add('hidden'); }
+
+        function handleInfoSave(e) {
+            e.preventDefault();
+            document.getElementById('bulletin-tag-display').innerText = document.getElementById('bulletin-tag-input').value.toUpperCase();
+            document.getElementById('bulletin-title-display').innerText = document.getElementById('bulletin-title-input').value;
+            document.getElementById('bulletin-desc-display').innerText = document.getElementById('bulletin-desc-input').value;
+            
+            const fileInput = document.getElementById('bulletin-file-input');
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                const fileUrl = URL.createObjectURL(file);
+                const fileLinkContainer = document.getElementById('bulletin-file-link');
+                const downloadBtn = document.getElementById('bulletin-download-btn');
+                const fileNameSpan = document.getElementById('bulletin-file-name');
+
+                downloadBtn.href = fileUrl;
+                fileNameSpan.innerText = `Muat Turun: ${file.name}`;
+                fileLinkContainer.classList.remove('hidden');
+            }
+
+            closeInfoEditorModal();
+            alert("Sudut Info UBK Minggu Ini berjaya dikemaskini!");
+        }
+
+        // PRIVATE STUDENT DATA CENTER LOGIC
+        function handleStudentExcelUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const data = new Uint8Array(evt.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+                    const tbody = document.getElementById('student-table-body');
+                    tbody.innerHTML = '';
+
+                    let recordCount = 0;
+                    for (let i = 1; i < jsonData.length; i++) {
+                        const row = jsonData[i];
+                        if (row && row.length > 0) {
+                            recordCount++;
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td class="p-3.5">${recordCount}</td>
+                                <td class="p-3.5 font-bold text-white">${row[0] || 'N/A'}</td>
+                                <td class="p-3.5">${row[1] || 'N/A'}</td>
+                                <td class="p-3.5">${row[2] || 'N/A'}</td>
+                                <td class="p-3.5"><span class="bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded">${row[3] || 'Rekod Dimuat Naik'}</span></td>
+                                <td class="p-3.5 text-center">
+                                    <button onclick="deleteStudentRow(this)" class="text-rose-400 hover:text-rose-300 font-bold">🗑️ Padam</button>
+                                </td>
+                            `;
+                            tbody.appendChild(tr);
+                        }
+                    }
+                    document.getElementById('student-record-count').innerText = recordCount;
+                    alert(`Berjaya memuat naik ${recordCount} rekod murid ke Pusat Data Sulit UBK!`);
+                } catch (err) {
+                    alert("Format fail tidak sah. Sila guna fail Excel (.xlsx) atau CSV yang berstruktur.");
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function deleteStudentRow(btn) {
+            if (confirm("Adakah anda pasti mahu memadam rekod murid ini dari Pusat Data?")) {
+                btn.closest('tr').remove();
+                const tbody = document.getElementById('student-table-body');
+                document.getElementById('student-record-count').innerText = tbody.querySelectorAll('tr').length;
+            }
+        }
+
+        function filterStudentTable() {
+            const query = document.getElementById('student-search-input').value.toLowerCase();
+            const selectedClass = document.getElementById('student-class-filter').value.toLowerCase();
+            const rows = document.querySelectorAll('#student-table-body tr');
+
+            rows.forEach(row => {
+                const name = row.children[1].innerText.toLowerCase();
+                const kelas = row.children[2].innerText.toLowerCase();
+
+                const matchesSearch = name.includes(query);
+                const matchesClass = !selectedClass || kelas.includes(selectedClass);
+
+                if (matchesSearch && matchesClass) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function downloadExcelTemplate() {
+            const csvContent = "data:text/csv;charset=utf-8,Nama Murid,Kelas,Jantina,Catatan GBK\nAhmad Zaki Bin Rosli,4 Cemerlang,Lelaki,IAT4 Selesai\nNur Aisyah Binti Mohd Haris,5 Bijak,Perempuan,IKP T5 Selesai";
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Template_Data_Murid_SK_Kebagu.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // --- CHART 1: PSIKOMETRIK CHART ---
+        window.onload = function() {
+            const ctxPsiko = document.getElementById('psikometrikChart').getContext('2d');
+            new Chart(ctxPsiko, {
+                type: 'bar',
+                data: {
+                    labels: ['Verbal-Linguistik', 'Logik-Matematik', 'Visual-Ruang', 'Kinestetik', 'Muzik', 'Interpersonal', 'Intrapersonal'],
+                    datasets: [{
+                        label: 'Peratus Kecenderungan Murid (%)',
+                        data: [85, 72, 90, 88, 65, 94, 78],
+                        backgroundColor: '#38bdf8',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, max: 100 } }
+                }
+            });
+
+            // --- CHART 2: MINDA SIHAT CHART ---
+            renderMindaChart(dataJantina);
+        };
+
         const ctxMinda = document.getElementById('mindaSihatChart').getContext('2d');
         let mindaChart;
 
@@ -542,9 +1276,6 @@
                 renderMindaChart(dataKelas);
             }
         }
-
-        // Initial Load of Minda Sihat Chart
-        renderMindaChart(dataJantina);
     </script>
 </body>
 </html>
